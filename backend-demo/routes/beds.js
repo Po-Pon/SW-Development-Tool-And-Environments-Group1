@@ -49,4 +49,50 @@ router.get("/bedsready", async (req, res) => {
     }
 });
 
+// -------------------------------------------------- added
+router.get("/beds/:id", async (req, res) => {
+  try {
+    const bedsid = await Beds.findById(req.params.id);
+    const userid = await User.find();
+    var list = [];
+
+    let name;
+
+    for (let i = 0; i < userid.length; i++) {
+      if (bedsid.user_id == userid[i]._id + "") {
+        name = userid[i];
+      }
+    }
+    list.push({
+      _id: bedsid._id,
+      amount: bedsid.amount,
+      hno: bedsid.hno,
+      no: bedsid.no,
+      lane: bedsid.lane,
+      district: bedsid.district,
+      area: bedsid.area,
+      province: bedsid.province,
+      zipcode: bedsid.zipcode,
+      user_id: bedsid.user_id,
+      createdAt: bedsid.createdAt,
+      updatedAt: bedsid.updatedAt,
+      user: name,
+    });
+
+    if (list.length == 0) {
+      res.status(203).json({ status: false, message: "ไม่มีข้อมูล!" });
+    } else {
+      res
+        .status(203)
+        .json({ status: true, message: "การค้นหาสำเร็จ!", info: list });
+    }
+  } catch (err) {
+    res.status(404).json({
+      status: false,
+      message: "ไม่มีข้อมูลหรือเกิดข้อผิดพลาดกรุณาลงทะเบียนอีกครั้งภายหลัง",
+    });
+  }
+});
+// --------------------------------------------------
+
 module.exports = router;
