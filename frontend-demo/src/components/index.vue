@@ -48,14 +48,23 @@
       </div>
     </div>
     <p class="text-end text-secondary">ข้อมูลโดย disease.sh</p>
+
+    <!-- Chart Section -->
+    <div class="my-3">
+      <CovidChart />
+    </div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
 import moment from "moment";
+import CovidChart from "./Charts/covidChart.vue";
 
 export default {
+  components: {
+    CovidChart,
+  },
   data() {
     return {
       covidData: null,
