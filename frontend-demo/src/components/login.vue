@@ -54,15 +54,6 @@ export default {
       pass: {
         required,
         minLength: minLength(5),
-        containsUppercase: function (value) {
-          return /[A-Z]/.test(value);
-        },
-        containsLowercase: function (value) {
-          return /[a-z]/.test(value);
-        },
-        containsNumber: function (value) {
-          return /[0-9]/.test(value);
-        },
       },
     };
   },

@@ -223,8 +223,8 @@ export default {
     return {
       beds: { required, between: between(1, 9999) },
       province: { required, maxLength: maxLength(50) },
-      hno: { required, maxLength: maxLength(30), numeric },
-      no: { required, maxLength: maxLength(30), numeric },
+      hno: { required, maxLength: maxLength(30) },
+      no: { required, maxLength: maxLength(30) },
       lane: { required, maxLength: maxLength(50) },
       district: { required, maxLength: maxLength(50) },
       area: { required, maxLength: maxLength(50) },

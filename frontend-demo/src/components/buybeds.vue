@@ -32,20 +32,137 @@
         </button>
       </p>
     </div>
+
+    <!-- BuyForm Section -->
+    <hr class="col-lg-8 m-auto my-5" />
+    <p class="text-center h5">วันที่จะเข้าพักอาศัย</p>
+    <div class="m-auto d-flex my-3 justify-content-center">
+      <div class="row">
+        <div class="col">
+          <input
+            type="date"
+            @change="changeValidate()"
+            class="form-control"
+            v-model="date"
+            :min="miniDate()"
+          />
+          <span v-if="v$.checkDate.$error" style="color: red">
+            <p>โปรดเลือกวันที่ให้ถูกต้อง</p>
+          </span>
+        </div>
+        <div class="col">
+          <button
+            class="btn btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#modalRent"
+          >
+            จอง
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Section -->
+    <div
+      class="modal fade"
+      id="modalRent"
+      tabindex="-1"
+      aria-labelledby="modalRentLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalRentLabel">คุณต้องการจองใช่ไหม</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              ยกเลิก
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              data-bs-dismiss="modal"
+              @click="rentValidate()"
+            >
+              ยืนยันจอง
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import moment from "moment";
 import { SERVER_IP, PORT } from "../assets/server/serverIP";
+import useValidate from "@vuelidate/core";
+import { required, minValue } from "@vuelidate/validators";
 
 export default {
   data() {
     return {
+      v$: useValidate(),
       bed: null,
+      date: "",
+      user: null,
+      checkDate: "",
+    };
+  },
+
+  validations() {
+    return {
+      checkDate: { required, minValue: minValue(new Date()) },
     };
   },
   methods: {
+    miniDate() {
+      return moment(new Date()).format("YYYY-MM-DD") + "";
+    },
+    rent() {
+      let formData = {
+        date: this.date,
+        bed_id: this.$route.params.id,
+        user_id: this.user._id,
+      };
+      axios
+        .post(`https://${SERVER_IP}:${PORT}/bedsdealing`, formData)
+        .then((res) => {
+          const data = res.data;
+          if (data.status) {
+            this.$router.push("/beds");
+          } else {
+            alert(data.message);
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    },
+    changeValidate() {
+      this.checkDate = new Date(this.date);
+      this.v$.$validate();
+    },
+    rentValidate() {
+      if (!this.v$.$error) {
+        // if ANY fail validation
+        this.rent();
+      } else {
+        alert("โปรดกรอกข้อมูลให้ถูกต้อง");
+      }
+    },
     gmaps(url) {
       window.open("https://www.google.co.th/maps?q=" + url, "_blank");
     },
@@ -65,6 +182,7 @@ export default {
       if (info != null) {
         this.$root.info = info;
         this.$root.loggedIn = true;
+        this.user = info;
       } else {
         this.loggedIn = false;
         alert("โปรดลงชื่อเข้าใช้งาน");
