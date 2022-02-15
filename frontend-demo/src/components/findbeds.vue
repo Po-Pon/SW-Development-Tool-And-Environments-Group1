@@ -24,6 +24,46 @@
     </div>
 
     <br />
+
+    <!-- Result Section -->
+    <div>
+      <p class="col-lg-8 m-auto my-3">
+        ค้นพบ
+        <span class="text-primary">{{ beds.length.toLocaleString() }}</span>
+        เตียง
+      </p>
+      <div
+        class="content col-lg-8 m-auto mb-3"
+        v-for="bed in beds"
+        :key="bed._id"
+      >
+        <p>
+          <button type="button" class="btn btn-success btn-sm">
+            พร้อมจอง
+            <span class="badge bg-white text-dark">{{ bed.amount }}</span> เตียง
+          </button>
+        </p>
+        <div class="row my-3">
+          <div class="col-2 text-center m-auto">
+            <p class="h4"><i class="fas fa-map-marker-alt fa-lg"></i></p>
+          </div>
+          <div class="col-10">
+            <p class="h5">{{ bed.province }}</p>
+            <p class="h5">{{ bed.hno }} {{ bed.lane }}</p>
+            <p class="text-secondary">
+              {{
+                `ตำบล/แขวง ${bed.district} อำเภอ/เขต ${bed.area} ${bed.province} ประเทศไทย ${bed.zipcode} `
+              }}
+            </p>
+          </div>
+        </div>
+        <p class="text-center">
+          <a :href="'/buybeds/' + bed._id"
+            ><button class="btn btn-primary btn-sm">ดูรายละเอียด</button></a
+          >
+        </p>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -31,6 +71,7 @@
 import axios from "axios";
 import { provinceTH } from "../assets/js/province.js";
 import { SERVER_IP, PORT } from "../assets/server/serverIP";
+
 export default {
   data() {
     return {
