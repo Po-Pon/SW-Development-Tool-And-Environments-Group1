@@ -1,6 +1,7 @@
 const Bedsdealing = require("../models/Bedsdealing");
 const Beds = require("../models/Beds");
 const router = require("express").Router();
+const User = require('../models/User');
 
 
 
