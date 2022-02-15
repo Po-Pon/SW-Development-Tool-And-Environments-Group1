@@ -53,6 +53,32 @@
     <div class="my-3">
       <CovidChart />
     </div>
+
+    <!-- Findbeds Section -->
+    <h3><i class="fas fa-procedures"></i> ค้นหาเตียง</h3>
+    <p>
+      จำนวนเตียงว่างทั้งหมด
+      <span class="text-success"
+        ><b>{{ amountBedsReady.toLocaleString() }}</b></span
+      >
+      เตียง
+    </p>
+    <div class="content">
+      <p class="text-center">
+        <a href="/findbeds"
+          ><button class="btn col-12 col-lg-4 btn-info text-white">
+            <i class="fas fa-search-location fa-lg"></i> ค้นหาเตียง
+          </button></a
+        >
+      </p>
+      <p class="text-center">
+        <a href="/beds"
+          ><button class="btn col-12 col-lg-4 btn-success">
+            <i class="fas fa-clipboard-list fa-lg"></i> การจองเตียง
+          </button></a
+        >
+      </p>
+    </div>
   </div>
 </template>
 
@@ -60,6 +86,7 @@
 import axios from "axios";
 import moment from "moment";
 import CovidChart from "./Charts/covidChart.vue";
+import { SERVER_IP, PORT } from "../assets/server/serverIP";
 
 export default {
   components: {
@@ -68,9 +95,25 @@ export default {
   data() {
     return {
       covidData: null,
+      bedsReady: [],
+      amountBedsReady: 0,
     };
   },
   methods: {
+    getBedsReady() {
+      axios
+        .get(`https://${SERVER_IP}:${PORT}/bedsready`)
+        .then((res) => {
+          const data = res.data;
+          this.amountBedsReady = data.info.reduce(function (prev, curr) {
+            return prev + curr.amount;
+          }, 0);
+          this.bedsReady = data.info;
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    },
     GetcovidData() {
       let apiCovid19Today = "https://corona.lmao.ninja/v2/countries/TH";
       axios
@@ -89,6 +132,7 @@ export default {
   },
   created() {
     this.GetcovidData();
+    this.getBedsReady();
   },
 };
 </script>
