@@ -3,10 +3,12 @@ const app = express();
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const bedsRoute = require('./routes/beds');
-const bedsdealingRoute = require('./routes/bedsdealing')
-const userRoute = require('./routes/auth');
+const bedsdealingRoute = require('./routes/bedsdealing');
+const authRoute = require('./routes/auth');
+const userRoute = require('./routes/user');
 
 var cors = require('cors');
+const User = require('./models/User');
 const PORT = process.env.PORT || 8888;
 
 dotenv.config();
@@ -23,6 +25,7 @@ app.use(express.json());
 
 app.use(bedsRoute);
 app.use(bedsdealingRoute);
+app.use(authRoute);
 app.use(userRoute);
 
 app.listen(PORT, () => {
