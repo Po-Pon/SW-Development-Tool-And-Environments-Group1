@@ -1,6 +1,7 @@
 const Beds = require("../models/Beds");
 const User = require("../models/User");
 const router = require("express").Router();
+const Bedsdealing = require("../models/Bedsdealing");
 
 router.get("/bedsready", async (req, res) => {
     try {
@@ -49,7 +50,6 @@ router.get("/bedsready", async (req, res) => {
     }
 });
 
-// -------------------------------------------------- added
 router.get("/beds/:id", async (req, res) => {
   try {
     const bedsid = await Beds.findById(req.params.id);
@@ -93,6 +93,57 @@ router.get("/beds/:id", async (req, res) => {
     });
   }
 });
-// --------------------------------------------------
+
+router.get("/bedsbyusers/:id", async (req, res) => {
+  try {
+    const beds = await Beds.find({ user_id: req.params.id });
+    const userby = await User.find();
+    const dealing = await Bedsdealing.find();
+    var list = [];
+    for (let i = 0; i < beds.length; i++) {
+      let name;
+      let datadeal = [];
+      for (let y = 0; y < userby.length; y++) {
+        if (beds[i].user_id == userby[y]._id + "") {
+          name = userby[y];
+        }
+      }
+      for (let z = 0; z < dealing.length; z++){
+        if (beds[i]._id == dealing[z].bed_id){
+          datadeal.push(dealing[z]);
+        }
+      }
+      list.push({
+        _id: beds[i]._id,
+        amount: beds[i].amount,
+        hno: beds[i].hno,
+        no: beds[i].no,
+        lane: beds[i].lane,
+        district: beds[i].district,
+        area: beds[i].area,
+        province: beds[i].province,
+        zipcode: beds[i].zipcode,
+        user_id: beds[i].user_id,
+        createdAt: beds[i].createdAt,
+        updatedAt: beds[i].updatedAt,
+        user: name,
+        bedsdealing: datadeal
+      });
+    }
+
+    if (list.length === 0) {
+      res.status(203).json({ status: false, message: "ไม่มีข้อมูล!" });
+    } else {
+      res
+        .status(203)
+        .json({ status: true, message: "การค้นหาสำเร็จ!", info: {bed: list} });
+    }
+  } catch (err) {
+    res.status(500).json({
+      status: false,
+      message: "เกิดข้อผิดพลาดกรุณาลงทะเบียนอีกครั้งภายหลัง",
+    });
+  }
+});
 
 module.exports = router;
