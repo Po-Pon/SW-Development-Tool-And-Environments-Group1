@@ -163,4 +163,43 @@ router.get("/bedsdealing", async (req, res) => {
   } catch (err) {}
 });
 
+router.get("/bedsdealingbybeds/:id", async (req, res) => {
+  try {
+    const dealingbybed = await Bedsdealing.find({ bed_id: req.params.id });
+    const userbybed = await User.find();
+    let list = [];
+
+    for (let i = 0; i < dealingbybed.length; i++) {
+      let name;
+      for (let y = 0; y < userbybed.length; y++) {
+        if (dealingbybed[i].user_id == userbybed[y]._id + "") {
+          name = userbybed[y];
+        }
+      }
+      list.push({
+        _id: dealingbybed[i]._id,
+        bed_id: dealingbybed[i].bed_id,
+        user_id: dealingbybed[i].user_id,
+        date: dealingbybed[i].date,
+        user: name,
+      });
+    }
+
+    if (list.length === 0) {
+      res.status(203).json({ status: false, message: "ไม่มีข้อมูล!" });
+    } else {
+      res.status(203).json({
+        status: true,
+        message: "การค้นหาสำเร็จ!",
+        info: list,
+      });
+    }
+  } catch (err) {
+    res.status(500).json({
+      status: false,
+      message: "เกิดข้อผิดพลาดกรุณาลงทะเบียนอีกครั้งภายหลัง",
+    });
+  }
+});
+
 module.exports = router;
