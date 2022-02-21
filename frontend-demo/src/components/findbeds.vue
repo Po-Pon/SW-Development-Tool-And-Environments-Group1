@@ -30,7 +30,7 @@
       <p class="col-lg-8 m-auto my-3">
         ค้นพบ
         <span class="text-primary">{{ beds.length.toLocaleString() }}</span>
-        เตียง
+        สถานที่
       </p>
       <div
         class="content col-lg-8 m-auto mb-3"
