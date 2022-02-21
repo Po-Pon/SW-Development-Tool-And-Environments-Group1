@@ -40,7 +40,7 @@
         <p>
           <button type="button" class="btn btn-success btn-sm">
             พร้อมจอง
-            <span class="badge bg-white text-dark">{{ bed.amount }}</span> เตียง
+            <span class="badge bg-white text-dark">{{ bed.amount }}</span> สถานที่
           </button>
         </p>
         <div class="row my-3">
