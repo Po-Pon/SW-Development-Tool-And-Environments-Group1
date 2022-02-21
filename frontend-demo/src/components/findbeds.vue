@@ -30,7 +30,7 @@
       <p class="col-lg-8 m-auto my-3">
         ค้นพบ
         <span class="text-primary">{{ beds.length.toLocaleString() }}</span>
-        เตียง
+        สถานที่
       </p>
       <div
         class="content col-lg-8 m-auto mb-3"
@@ -40,7 +40,7 @@
         <p>
           <button type="button" class="btn btn-success btn-sm">
             พร้อมจอง
-            <span class="badge bg-white text-dark">{{ bed.amount }}</span> สถานที่
+            <span class="badge bg-white text-dark">{{ bed.amount }}</span> เตียง
           </button>
         </p>
         <div class="row my-3">
