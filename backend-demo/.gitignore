@@ -1,6 +1,15 @@
 .env
-
+.nyc_output
+build
 node_modules
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+package-lock.json
+yarn.lock
 
 # Editor directories and files
 .idea

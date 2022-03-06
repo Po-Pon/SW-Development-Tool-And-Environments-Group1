@@ -4,8 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js"
+    "build": "backpack build",
+    "dev": "backpack",
+    "start": "node ./build/main.js",
+    "test": "yarn build && nyc mocha --timeout 20000 ./test --exit"
   },
   "author": "",
   "license": "ISC",
@@ -17,5 +19,11 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.2.1",
     "nodemon": "^2.0.15"
+  },
+  "devDependencies": {
+    "chai": "^4.3.6",
+    "chai-http": "^4.3.0",
+    "mocha": "^9.2.1",
+    "nyc": "^15.1.0"
   }
 }
