@@ -199,3 +199,146 @@ describe("Testing unit bedsdealing.js", () => {
       });
     });
 });
+
+describe("Testing unit auth.js", () => {
+  before((done) => {
+    // Do something here before test
+    done();
+  });
+
+  describe("POST /login", () => {
+    it("Login with undefind email should have message อีเมลไม่มีอยู่ในระบบ กรุณาลองใหม่อีกครั้ง with POST", (done) => {
+      chai
+        .request(server)
+        .post("/login")
+        .send({
+          email: "testsdsd@gmail.com",
+          pass: "Passw0rd2",
+        })
+        .end((e, res) => {
+          res.should.have.status(203);
+          res.body.should.have
+            .property("message")
+            .eql("อีเมลหรือรหัสผ่านไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง");
+          done();
+        });
+    });
+
+    it("Login with wrong password should have message รหัสผ่านไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง with POST", (done) => {
+      chai
+        .request(server)
+        .post("/login")
+        .send({
+          email: "test@gmail.com",
+          pass: "Passw0rd2",
+        })
+        .end((e, res) => {
+          res.should.have.status(203);
+          res.body.should.have
+            .property("message")
+            .eql("อีเมลหรือรหัสผ่านไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง");
+          done();
+        });
+    });
+
+    it("Login should have message เข้าสู่ระบบสำเร็จ with POST", (done) => {
+      chai
+        .request(server)
+        .post("/login")
+        .send({
+          email: "test@gmail.com",
+          pass: "Passw0rd",
+        })
+        .end((e, res) => {
+          res.should.have.status(200);
+          res.body.should.have.property("message").eql("เข้าสู่ระบบสำเร็จ");
+          done();
+        });
+    });
+  });
+
+  describe("POST /register", () => {
+    it("Register with wrong data should have message เกิดข้อผิดพลาดกรุณาลงทะเบียนอีกครั้งภายหลัง with POST", (done) => {
+      chai
+        .request(server)
+        .post("/register")
+        .send({
+          email: idc + "user@gmail.com",
+          pass: "15901590",
+          fname: "user2586274157192",
+          lfame: "user2586274157192",
+          idcard: idc,
+          lineid: "_user2586274157192",
+          phone: "0812345678",
+        })
+        .end((e, res) => {
+          res.should.have.status(500);
+          res.body.should.have
+            .property("message")
+            .eql("เกิดข้อผิดพลาดกรุณาลงทะเบียนอีกครั้งภายหลัง");
+          done();
+        });
+    });
+
+    it("Register should have message ลงทะเบียนสำเร็จ! with POST", (done) => {
+      chai
+        .request(server)
+        .post("/register")
+        .send(data)
+        .end((e, res) => {
+          res.should.have.status(201);
+          res.body.should.have.property("message").eql("ลงทะเบียนสำเร็จ!");
+          done();
+        });
+    });
+
+    it("Register should have message อีเมลนี้มีในระบบอยู่แล้ว with POST", (done) => {
+      chai
+        .request(server)
+        .post("/register")
+        .send({
+          email: "user2586274157192@gmail.com",
+          pass: "15901590",
+          fname: "user2586274157192",
+          lname: "user2586274157192",
+          idcard: "2586274157192",
+          lineid: "_user2586274157192",
+          phone: "0812345678",
+        })
+        .end((e, res) => {
+          res.should.have.status(203);
+          res.body.should.have
+            .property("message")
+            .eql("อีเมลนี้เคยมีถูกใช้ซ้ำ");
+          done();
+        });
+    });
+
+    it("Register should have message เลขบัตรประจำตัวประชาชนมีการใช้ซ้ำ with POST", (done) => {
+      chai
+        .request(server)
+        .post("/register")
+        .send({
+          email: idc + "user@gmail.com",
+          pass: "15901590",
+          fname: "user2586274157192",
+          lname: "user2586274157192",
+          idcard: "1100600428467",
+          lineid: "_user2586274157192",
+          phone: "0812345678",
+        })
+        .end((e, res) => {
+          res.should.have.status(203);
+          res.body.should.have
+            .property("message")
+            .eql("เลขบัตรประจำตัวตัวมีการใช้ซ้ำ");
+          done();
+        });
+    });
+  });
+
+  after((done) => {
+    // Do something here after test
+    done();
+  });
+});
