@@ -1,0 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit&display=swap');
+body {
+  font-family: 'Kanit', sans-serif;
+}
+.content {
+        border: solid 1px #ccc;
+        padding: 40px 25px 40px 25px;
+        border-radius: 8px;
+}
