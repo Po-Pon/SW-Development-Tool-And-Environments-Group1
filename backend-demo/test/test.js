@@ -342,3 +342,91 @@ describe("Testing unit auth.js", () => {
     done();
   });
 });
+
+describe("Testing unit users.js", () => {
+  describe("GET /users/(ไอดีของผู้ใช้)", () => {
+    it("Get user details should have message ไอดีที่เรียกถูกต้อง", (done) => {
+      chai
+        .request(server)
+        .get("/users/6208b3f444c7f91d395ba10e")
+        .end((e, res) => {
+          res.should.have.status(201);
+          res.body.should.have.property("message").eql("ไอดีที่เรียกถูกต้อง");
+          done();
+        });
+    });
+    it("Get undefind user should have message เกิดข้อผิดพลาดกรุณาลงทะเบียนอีกครั้งภายหลัง", (done) => {
+      chai
+        .request(server)
+        .get("/users/6208b3f444c7f91d395ba10edsad")
+        .end((e, res) => {
+          res.should.have.status(500);
+          res.body.should.have
+            .property("message")
+            .eql("เกิดข้อผิดพลาดกรุณาลงทะเบียนอีกครั้งภายหลัง");
+          done();
+        });
+    });
+  });
+  describe("PUT /users/(ไอดีของผู้ใช้)", () => {
+    it("Put update user details should have message อัพเดทข้อมูลสำเร็จ", (done) => {
+      chai
+        .request(server)
+        .put("/users/6208b3f444c7f91d395ba10e")
+        .send({
+            fname: "phalat"
+        })
+        .end((e, res) => {
+          res.should.have.status(200);
+          res.body.should.have.property("message").eql("อัพเดทข้อมูลสำเร็จ");
+          done();
+        });
+    });
+
+    it("Put update  undefind user should have message อัพเดทข้อมูลไม่สำเร็จ กรุณาลองใหม่ภายหลัง", (done) => {
+      chai
+        .request(server)
+        .put("/users/6208b3f444c7f91d395ba10edsaddsad")
+        .send({
+            fname: "phalat"
+        })
+        .end((e, res) => {
+          res.should.have.status(500);
+          res.body.should.have
+            .property("message")
+            .eql("อัพเดทข้อมูลไม่สำเร็จ กรุณาลองใหม่ภายหลัง");
+          done();
+        });
+    });
+  });
+  describe("PUT /changepass/(ไอดีของผู้ใช้)", () => {
+    it("Put change user password should have message เปลี่ยนรหัสผ่านสำเร็จ", (done) => {
+      chai
+        .request(server)
+        .put("/users/changepass/6208b3f444c7f91d395ba10e")
+        .send({
+            oldpass: "123456",
+            pass: "123456"
+        })
+        .end((e, res) => {
+          res.should.have.status(200);
+          res.body.should.have.property("message").eql("เปลี่ยนรหัสผ่านสำเร็จ");
+          done();
+        });
+    });
+    it("Put change user but wrong password should have message รหัสผ่านไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง", (done) => {
+        chai
+          .request(server)
+          .put("/users/changepass/6208b3f444c7f91d395ba10e")
+          .send({
+              oldpass: "1234567",
+              pass: "123456"
+          })
+          .end((e, res) => {
+            res.should.have.status(200);
+            res.body.should.have.property("message").eql("รหัสผ่านไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง");
+            done();
+          });
+      });
+  });
+});
