@@ -99,3 +99,103 @@ describe("Testing unit beds.js", () => {
     });
   });
 });
+
+describe("Testing unit bedsdealing.js", () => {
+    describe("GET /bedsdealing", () => {
+      it("Get Bedsdealing should have message การค้นหาสำเร็จ!", (done) => {
+        chai
+          .request(server)
+          .get("/bedsdealing")
+          .end((e, res) => {
+            res.should.have.status(200);
+            res.body.should.have.property("message").eql("การค้นหาสำเร็จ!");
+            done();
+          });
+      });
+    });
+  
+    describe("GET /bedsdealingbyusers/(ไอดีของผู้ใช้)", () => {
+      it("Get Bedsdealingbyusers should have message การค้นหาสำเร็จ!", (done) => {
+        chai
+          .request(server)
+          .get("/bedsdealingbyusers/6208b3f444c7f91d395ba10e")
+          .end((e, res) => {
+            res.should.have.status(203);
+            res.body.should.have.property("message").eql("การค้นหาสำเร็จ!");
+            done();
+          });
+      });
+    });
+  
+    describe("GET /bedsdealing/(ไอดีของประวัติการจองเตียง)", () => {
+      it("Get Bedsdealing should have message การค้นหาสำเร็จ!", (done) => {
+        chai
+          .request(server)
+          .get("/bedsdealing/620cb960ad5614b8ae1d208f")
+          .end((e, res) => {
+            res.should.have.status(200);
+            res.body.should.have.property("message").eql("การค้นหาสำเร็จ!");
+            done();
+          });
+      });
+    });
+  
+    describe("GET /bedsdealingbybeds/(ไอดีของสถานที่ให้บริการเตียง)", () => {
+      it("Get Bedsdealing by beds_id should have message การค้นหาสำเร็จ!", (done) => {
+        chai
+          .request(server)
+          .get("/bedsdealingbybeds/620bb28003658a53611258dd")
+          .end((e, res) => {
+            res.should.have.status(203);
+            res.body.should.have.property("message").eql("การค้นหาสำเร็จ!");
+            done();
+          });
+      });
+      it("Get Bedsdealing by undefind beds_id should have message ไม่มีข้อมูล!", (done) => {
+        chai
+          .request(server)
+          .get("/bedsdealingbybeds/620bb28003658a53611258ddds")
+          .end((e, res) => {
+            res.should.have.status(203);
+            res.body.should.have.property("message").eql("ไม่มีข้อมูล!");
+            done();
+          });
+      });
+    });
+  
+    describe("POST /bedsdealing", () => {
+      it("Add Bedsdealing should have message จองสำเร็จ with POST", (done) => {
+        chai
+          .request(server)
+          .post("/bedsdealing")
+          .send({
+            date: "2022-03-15",
+            bed_id: "620bb28003658a53611258dd",
+            user_id: "6208b3f444c7f91d395ba10e",
+          })
+          .end((e, res) => {
+            res.should.have.status(201);
+            res.body.should.have.property("message").eql("จองสำเร็จ");
+            done();
+          });
+      });
+  
+      it("Add Bedsdealing should have message ไม่สามารถจองได้ เนื่องจากเตียงเต็ม with POST", (done) => {
+        chai
+          .request(server)
+          .post("/bedsdealing")
+          .send({
+            date: "2022-03-15",
+            bed_id: "620965c5fbc1fc3411ca57cb",
+            user_id: "6208b3f444c7f91d395ba10e",
+          })
+          .end((e, res) => {
+            res.should.have.status(201);
+            res.body.should.have
+              .property("message")
+              .eql("ไม่สามารถจองได้ เนื่องจากเตียงเต็ม");
+            done();
+          });
+      });
+    });
+});
