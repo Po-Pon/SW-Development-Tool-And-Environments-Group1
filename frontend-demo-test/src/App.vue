@@ -125,20 +125,20 @@ export default {
     return {
       loggedIn: false,
       info: null,
-    };
+    }
   },
   methods: {
     login(data) {
-      let myJSON = JSON.stringify(data.info);
-      localStorage.setItem("info", myJSON);
-      this.$router.push("/");
+      let myJSON = JSON.stringify(data.info)
+      localStorage.setItem("info", myJSON)
+      this.$router.push("/")
     },
     logout() {
-      localStorage.removeItem("info");
-      this.loggedIn = false;
-      this.info = null;
-      this.$router.push("/login");
+      localStorage.removeItem("info")
+      this.loggedIn = false
+      this.info = null
+      this.$router.push("/login")
     },
   },
-};
+}
 </script>

@@ -1,13 +1,12 @@
-import { createWebHistory, createRouter } from "vue-router";
-import Index from "@/components/index.vue";
-import Login from "@/components/login.vue";
-import Register from "@/components/register.vue";
-import Addbedsforsell from "@/components/addbedsforsell.vue";
-import Profile from "@/components/profile.vue";
-import Findbeds from "@/components/findbeds.vue";
-import Buybeds from "@/components/buybeds.vue";
-import Beds from "@/components/beds.vue";
-import Bedsdetail from "@/components/bedsdetail.vue";
+import { createWebHistory, createRouter } from "vue-router"
+import Index from "@/pages/index.vue"
+import Login from "@/pages/login.vue"
+import Register from "@/pages/register.vue"
+import Addbedsforsell from "@/pages/addbedsforsell.vue"
+import Profile from "@/pages/profile.vue"
+import Findbeds from "@/pages/findbeds.vue"
+import Buybeds from "@/pages/buybeds.vue"
+import Beds from "@/pages/beds.vue"
 
 const routes = [
   {
@@ -50,16 +49,11 @@ const routes = [
     name: "beds",
     component: Beds,
   },
-  {
-    path: "/bedsdetail/:id",
-    name: "bedsdetail",
-    component: Bedsdetail,
-  },
-];
+]
 
 const router = createRouter({
   history: createWebHistory(),
   routes,
-});
+})
 
-export default router;
+export default router
