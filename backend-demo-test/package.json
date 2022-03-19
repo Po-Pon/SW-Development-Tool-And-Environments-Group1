@@ -7,7 +7,9 @@
     "build": "backpack build",
     "dev": "backpack",
     "start": "node ./build/main.js",
-    "test": "yarn build && nyc mocha --timeout 20000 ./test --exit"
+    "test": "npm run test:unit",
+    "test:unit": "yarn build && mocha --timeout 20000 ./test/test.spec.js --exit",
+    "test:component": "yarn build && mocha --no-timeout ./test/db/*.spec.js --exit"
   },
   "author": "",
   "license": "ISC",
