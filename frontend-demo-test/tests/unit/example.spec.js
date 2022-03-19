@@ -1,12 +1,16 @@
-import { shallowMount } from '@vue/test-utils'
-import HelloWorld from '@/components/HelloWorld.vue'
+import { mount, shallowMount } from "@vue/test-utils"
+import Login from "@/pages/login.vue"
 
-describe('HelloWorld.vue', () => {
-  it('renders props.msg when passed', () => {
-    const msg = 'new message'
-    const wrapper = shallowMount(HelloWorld, {
-      props: { msg }
-    })
-    expect(wrapper.text()).toMatch(msg)
+describe("Login", () => {
+  test("Should render title", () => {
+    const wrapper = mount(Login)
+    const title = wrapper.find(['[data-test="title"]'])
+    expect(title.text()).toEqual("ลงชื่อเข้าใช้งาน")
+  })
+
+  test("Should have 1 button", () => {
+    const wrapper = mount(Login)
+    const button = wrapper.findAll("button")
+    expect(button).toHaveLength(1)
   })
 })
