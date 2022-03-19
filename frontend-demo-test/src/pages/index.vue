@@ -85,7 +85,7 @@
 <script>
 import axios from "axios"
 import moment from "moment"
-import CovidChart from "../components/Charts/covidChart.vue"
+import CovidChart from "@/components/Charts/covidChart.vue"
 import { SERVER_IP, PORT } from "../assets/server/serverIP"
 
 export default {

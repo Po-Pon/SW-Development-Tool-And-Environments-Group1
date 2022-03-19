@@ -18,7 +18,7 @@
     "@vuelidate/core": "^2.0.0-alpha.35",
     "@vuelidate/validators": "^2.0.0-alpha.27",
     "axios": "^0.26.1",
-    "chart.js": "^3.7.1",
+    "chart.js": "2.9.4",
     "core-js": "^3.8.3",
     "dayjs": "^1.11.0",
     "flush-promises": "^1.0.2",
