@@ -1,29 +1,26 @@
-const Bedsdealing = require("../models/Bedsdealing");
-const Beds = require("../models/Beds");
-const User = require("../models/User");
+const bedsRepo = require("../repository/beds.repo");
+const userRepo = require("../repository/user.repo");
+const bedsdealingRepo = require("../repository/bedsdealing.repo");
 const { model } = require("mongoose");
 
 const createBedsdealing = async (req, res) => {
   try {
-    const newdealing = await new Bedsdealing({
-      date: new Date(req.body.date),
-      bed_id: req.body.bed_id,
-      user_id: req.body.user_id,
-    });
+    const newdealing = await bedsdealingRepo.createBedsdealing(
+      req.body.date,
+      req.body.bed_id,
+      req.body.user_id
+    );
 
-    const oldBeds = await Beds.findById(req.body.bed_id);
+    const oldBeds = await bedsRepo.findBedsById(req.body.bed_id);
 
     if (oldBeds.amount === 0) {
       res
         .status(201)
         .json({ status: false, message: "ไม่สามารถจองได้ เนื่องจากเตียงเต็ม" });
     } else {
-      const update_Beds = await Beds.findByIdAndUpdate(
+      const update_Beds = await bedsRepo.updatedBedamount(
         req.body.bed_id,
-        {
-          $set: { amount: oldBeds.amount - 1 },
-        },
-        { new: true }
+        oldBeds.amount
       );
 
       if (oldBeds.amount === 0) {
@@ -32,12 +29,9 @@ const createBedsdealing = async (req, res) => {
           message: "ไม่สามารถจองได้ เนื่องจากเตียงหมด",
         });
       } else {
-        const update_Beds = await Beds.findByIdAndUpdate(
+        const update_Beds = await bedsRepo.updatedBedamount(
           req.body.bed_id,
-          {
-            $set: { amount: oldBeds.amount - 1 },
-          },
-          { new: true }
+          oldBeds.amount
         );
 
         const New_dealing = await newdealing.save();
@@ -53,48 +47,40 @@ const createBedsdealing = async (req, res) => {
 };
 
 const getBedsdealingById = async (req, res) => {
-  try {
-    const dealingall4 = await Bedsdealing.find({ _id: req.params.id });
-    const bedsid = await Beds.find();
-    const userid = await User.find();
+  const dealingall4 = await bedsdealingRepo.findBedsdealingById(req.params.id);
 
-    let list = [];
-    let namell4;
-    let bedsinfo;
-    for (let y = 0; y < userid.length; y++) {
-      if (dealingall4[0].user_id == userid[y]._id + "") {
-        namell4 = userid[y];
-      }
-    }
-    for (let z = 0; z < bedsid.length; z++) {
-      if (dealingall4[0].bed_id == bedsid[z]._id + "") {
-        bedsinfo = bedsid[z];
-      }
-    }
+  if(dealingall4.length === 0){
+    res.status(203).json({ status: false, message: "ไม่มีข้อมูล!" });
+  }
 
-    list.push({
-      _id: dealingall4[0]._id,
-      bed_id: dealingall4[0].bed_id,
-      user_id: dealingall4[0].user_id,
-      date: dealingall4[0].date,
-      user: namell4,
-      bed: bedsinfo,
-    });
+  var list = [];
+  const bedsid = await bedsRepo.findBedsById(dealingall4.bed_id);
+  const userid = await userRepo.findUserById(dealingall4.user_id);
 
-    if (list.length === 0) {
-      res.status(203).json({ status: false, message: "ไม่มีข้อมูล!" });
-    } else {
-      res
-        .status(200)
-        .json({ status: true, message: "การค้นหาสำเร็จ!", info: list });
-    }
-  } catch (err) {}
+  list.push({
+    _id: dealingall4._id,
+    bed_id: dealingall4.bed_id,
+    user_id: dealingall4.user_id,
+    date: dealingall4.date,
+    user: userid,
+    bed: bedsid,
+  });
+
+  if (list.length === 0) {
+    res.status(203).json({ status: false, message: "ไม่มีข้อมูล!" });
+  } else {
+    res
+      .status(200)
+      .json({ status: true, message: "การค้นหาสำเร็จ!", info: list });
+  }
 };
 
 const getBedsdealingByUsersId = async (req, res) => {
   try {
-    const dealingbyuser = await Bedsdealing.find({ user_id: req.params.id });
-    const userbyuser = await User.find();
+    const dealingbyuser = await bedsdealingRepo.findBedsdealingByUserId(
+      req.params.id
+    );
+    const userbyuser = await userRepo.findAllUser();
     let list = [];
 
     for (let i = 0; i < dealingbyuser.length; i++) {
@@ -132,8 +118,8 @@ const getBedsdealingByUsersId = async (req, res) => {
 
 const getAllBedsdealing = async (req, res) => {
   try {
-    const dealingall3 = await Bedsdealing.find();
-    const user = await User.find();
+    const dealingall3 = await bedsdealingRepo.findAllBedsdealing();
+    const user = await userRepo.findAllUser();
     let list = [];
 
     for (let i = 0; i < dealingall3.length; i++) {
@@ -164,8 +150,10 @@ const getAllBedsdealing = async (req, res) => {
 
 const getBedsdealingByBedsId = async (req, res) => {
   try {
-    const dealingbybed = await Bedsdealing.find({ bed_id: req.params.id });
-    const userbybed = await User.find();
+    const dealingbybed = await bedsdealingRepo.findBedsdealingByBedsId(
+      req.params.id
+    );
+    const userbybed = await userRepo.findAllUser();
     let list = [];
 
     for (let i = 0; i < dealingbybed.length; i++) {
@@ -202,9 +190,9 @@ const getBedsdealingByBedsId = async (req, res) => {
 };
 
 module.exports = {
-    getAllBedsdealing,
-    getBedsdealingById,
-    getBedsdealingByUsersId,
-    getBedsdealingByBedsId,
-    createBedsdealing
-}
+  getAllBedsdealing,
+  getBedsdealingById,
+  getBedsdealingByUsersId,
+  getBedsdealingByBedsId,
+  createBedsdealing,
+};

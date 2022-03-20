@@ -1,12 +1,13 @@
-const User = require("../models/User");
 
 const CryptoJS = require("crypto-js");
 const dotenv = require("dotenv");
 dotenv.config();
 
+const userRepo = require('../repository/user.repo')
+
 const getUser = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
+    const user = await userRepo.findUserById(req.params.id)
 
     if (!user) {
       res
@@ -26,13 +27,7 @@ const getUser = async (req, res) => {
 
 const updatedUser = async (req, res) => {
   try {
-    const updatedUser = await User.findByIdAndUpdate(
-      req.params.id,
-      {
-        $set: req.body,
-      },
-      { new: true }
-    );
+    const updatedUser = await userRepo.updatedUserData(req.params.id, req.body);
 
     res
       .status(200)
@@ -46,7 +41,7 @@ const updatedUser = async (req, res) => {
 
 const changePass = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
+    const user = await userRepo.findUserById(req.params.id);
     const hashedPass = await CryptoJS.AES.decrypt(
       user.pass,
       process.env.PASS_SEC
@@ -57,9 +52,7 @@ const changePass = async (req, res) => {
         req.body.pass,
         process.env.PASS_SEC
       ).toString();
-      const new_user = await User.findByIdAndUpdate(req.params.id, {
-        pass: new_pass,
-      });
+      const new_user = await userRepo.updatedUserData(req.params.id, {pass: new_pass});
 
       res.json({ status: true, message: "เปลี่ยนรหัสผ่านสำเร็จ" });
     } else {

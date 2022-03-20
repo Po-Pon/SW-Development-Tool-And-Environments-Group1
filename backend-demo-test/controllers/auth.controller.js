@@ -1,11 +1,12 @@
 const router = require("express").Router();
 const User = require("../models/User");
+const authRepo = require("../repository/auth.repo");
 const CryptoJS = require("crypto-js");
 
 const userRegister = async (req, res) => {
   try {
-    const user = await User.findOne({ email: req.body.email });
-    const idCard = await User.findOne({ idcard: req.body.idcard });
+    const user = await authRepo.findUserByEmail(req.body.email);
+    const idCard = await authRepo.findIdcard(req.body.idcard);
 
     const newUser = await new User({
       email: req.body.email,
@@ -43,7 +44,7 @@ const userRegister = async (req, res) => {
 
 const userLogin = async (req, res) => {
     try {
-        const user = await User.findOne({ email: req.body.email });
+        const user = await authRepo.findUserByEmail(req.body.email);
         if (!user) {
           res
             .status(203)
