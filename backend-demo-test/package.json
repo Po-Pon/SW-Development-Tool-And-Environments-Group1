@@ -6,6 +6,7 @@
   "scripts": {
     "build": "backpack build",
     "dev": "backpack",
+    "node": "nodemon ./src/index.js",
     "start": "node ./build/main.js",
     "test": "yarn build && nyc mocha --timeout 20000 ./test --exit"
   },
