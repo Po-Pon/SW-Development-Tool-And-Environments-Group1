@@ -16,7 +16,7 @@ app.use(cors());
 
 mongoose
     .connect(process.env.MONGO_URL)
-    .then(() => console.log("DB Connection Successfull!"))
+    .then(() => console.log(""))
     .catch((err) => {
         console.log(err);
     });
@@ -26,7 +26,7 @@ app.use(express.json());
 app.use(bedsRoute);
 app.use(bedsdealingRoute);
 app.use(authRoute);
-app.use(userRoute);
+app.use('/users', userRoute);
 
 app.listen(PORT, () => {
     console.log("Backend server is running! on port 8888")

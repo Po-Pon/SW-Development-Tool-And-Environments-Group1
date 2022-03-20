@@ -7,7 +7,10 @@
     "build": "backpack build",
     "dev": "backpack",
     "start": "node ./build/main.js",
-    "test": "yarn build && nyc mocha --timeout 20000 ./test --exit"
+    "test": "yarn test:unit && yarn test:component",
+    "test:unit": "yarn build && mocha --timeout 30000 ./test/test.spec.js --exit",
+    "test:component": "yarn build && mocha --no-timeout ./test/db/*.spec.js --exit",
+    "test:e2e": "yarn build && mocha --no-timeout ./test/e2e/*.spec.js --exit"
   },
   "author": "",
   "license": "ISC",
@@ -21,6 +24,7 @@
     "nodemon": "^2.0.15"
   },
   "devDependencies": {
+    "backpack-core": "^0.8.4",
     "chai": "^4.3.6",
     "chai-http": "^4.3.0",
     "mocha": "^9.2.1",
