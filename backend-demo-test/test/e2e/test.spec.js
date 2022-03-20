@@ -1,8 +1,6 @@
 const chai = require("chai");
 const chaiHttp = require("chai-http");
-const {
-  walletApiClient,
-} = require("chia-dashboard-satellite/lib/service/stats-collection");
+
 const { after, before, describe, it } = require("mocha");
 
 const server = require("../../build/main").default;
