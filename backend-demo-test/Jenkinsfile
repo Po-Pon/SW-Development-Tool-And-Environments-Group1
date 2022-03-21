@@ -1,44 +1,29 @@
 pipeline {
     agent any
     stages {
-        stage('Pull code') {
+	stage('Download dependencies') {
             steps {
-                git branch: 'main', url: 'https://github.com/Po-Pon/SW-Development-Tool-And-Environments-Group1.git'
-            }
-        }
-		stage('Download dependencies') {
-            steps {
-                dir('backend-demo-test') {
-                    sh 'yarn'
-                }
+                sh 'yarn'
             }
         }
         stage('Build') {
             steps {
-                dir('backend-demo-test') {
                     sh 'yarn build'
-                }
             }
         }
         stage('Unit Test') {
             steps {
-                dir('backend-demo-test') {
                     sh 'yarn test:unit'
-                }
             }
         }
 		stage('Component Test') {
             steps {
-                dir('backend-demo-test') {
                     sh 'yarn test:component'
-                }
             }
         }
         stage('E2E Test') {
             steps {
-                dir('backend-demo-test') {
                     sh "yarn test:e2e"
-                }
             }
         }
     }
