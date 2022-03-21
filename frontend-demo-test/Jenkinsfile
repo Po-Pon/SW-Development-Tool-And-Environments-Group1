@@ -1,0 +1,54 @@
+pipeline {
+    agent any
+    stages {
+		stage('Download dependencies') {
+            steps {
+                dir('frontend-demo-test') {
+                    sh 'yarn'
+                }
+            }
+        }
+        stage('Scan & auto fixed code') {
+            steps {
+                dir('frontend-demo-test') {
+                    sh 'yarn lint'
+                }
+            }
+        }
+        stage('Unit Test') {
+            steps {
+                dir('frontend-demo-test') {
+                    sh 'yarn unit'
+                }
+            }
+        }
+		stage('Unit Test Coverage') {
+            steps {
+                dir('frontend-demo-test') {
+                    sh 'yarn unit:coverage'
+                }
+            }
+        }
+        stage('Component Test') {
+            steps {
+                dir('frontend-demo-test') {
+                    sh "yarn component"
+                }
+            }
+        }
+        stage('E2E Test') {
+            steps {
+                dir('frontend-demo-test') {
+                    sh "yarn e2e"
+                }
+            }
+        }
+        stage('Build') {
+            steps { 
+                dir('frontend-demo-test') {
+                    sh "yarn build"
+                }
+            }
+        }
+    }
+}
