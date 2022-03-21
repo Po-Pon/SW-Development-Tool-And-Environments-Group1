@@ -3,27 +3,37 @@ pipeline {
     stages {
 	stage('Download dependencies') {
             steps {
-                sh 'yarn'
+                dir('backend-demo-test') {
+                    sh 'yarn'
+                }
             }
         }
         stage('Build') {
             steps {
+                dir('backend-demo-test') {
                     sh 'yarn build'
+                }
             }
         }
         stage('Unit Test') {
             steps {
+                dir('backend-demo-test') {
                     sh 'yarn test:unit'
+                }
             }
         }
 		stage('Component Test') {
             steps {
+                dir('backend-demo-test') {
                     sh 'yarn test:component'
+                }
             }
         }
         stage('E2E Test') {
             steps {
+                dir('backend-demo-test') {
                     sh "yarn test:e2e"
+                }
             }
         }
     }
