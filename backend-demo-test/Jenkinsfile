@@ -1,6 +1,11 @@
 pipeline {
     agent any
     stages {
+	stage('Pull code') {
+            steps {
+                checkout scm
+            }
+        }
 	stage('Download dependencies') {
             steps {
                 dir('backend-demo-test') {
