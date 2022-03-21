@@ -1,7 +1,12 @@
 pipeline {
     agent any
     stages {
-		stage('Download dependencies') {
+	   stage('Pull code') {
+            steps {
+                checkout scm
+            }
+        }
+	stage('Download dependencies') {
             steps {
                 dir('frontend-demo-test') {
                     sh 'yarn'
