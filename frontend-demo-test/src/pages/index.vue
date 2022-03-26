@@ -94,7 +94,16 @@ export default {
   },
   data() {
     return {
-      covidData: null,
+      covidData: {
+        todayCases: 26234,
+        cases: 3503264,
+        todayDeaths: 67,
+        deaths: 24715,
+        active: 20013,
+        todayRecovered: 10013,
+        recovered: 3228284,
+        updated: new Date(),
+      },
       bedsReady: [],
       amountBedsReady: 0,
     }
@@ -114,17 +123,17 @@ export default {
           console.error(err)
         })
     },
-    GetcovidData() {
-      let apiCovid19Today = "https://corona.lmao.ninja/v2/countries/TH"
-      axios
-        .get(apiCovid19Today)
-        .then((res) => {
-          this.covidData = res.data
-        })
-        .catch((err) => {
-          console.error(err)
-        })
-    },
+    // GetcovidData() {
+    //   let apiCovid19Today = "https://corona.lmao.ninja/v2/countries/TH"
+    //   axios
+    //     .get(apiCovid19Today)
+    //     .then((res) => {
+    //       this.covidData = res.data
+    //     })
+    //     .catch((err) => {
+    //       console.error(err)
+    //     })
+    // },
     convertToThaiDate(rawDate) {
       moment.locale("th")
       return moment(rawDate).format(`Do MMMM YYYY | HH:mm น.`)
@@ -141,7 +150,7 @@ export default {
   },
   created() {
     this.authentication()
-    this.GetcovidData()
+    // this.GetcovidData()
     this.getBedsReady()
   },
 }
