@@ -11,7 +11,6 @@ describe("ทดสอบการทำงานของช่องกรอ�
       .type("fakepassword")
       .should("have.value", "fakepassword")
     cy.get(".btn").click()
-    cy.wait(3000)
   })
 
   it("ทำการ login โดยการใส่ Email และรหัสผ่านผิด เพื่อทดสอบการ validate", () => {
@@ -21,7 +20,6 @@ describe("ทดสอบการทำงานของช่องกรอ�
       .type("fakepassword")
       .should("have.value", "fakepassword")
     cy.get(".btn").click()
-    cy.wait(3000)
   })
 
   it("ทำการ login โดยการใส่ Email และรหัสผ่านถูกต้อง เพื่อทดสอบว่า login ได้จริงหรือไม่", () => {
@@ -33,7 +31,6 @@ describe("ทดสอบการทำงานของช่องกรอ�
       .type("Passw0rd")
       .should("have.value", "Passw0rd")
     cy.get(".btn").click()
-    cy.wait(3000)
     cy.url().should("include", "/")
   })
 })
@@ -50,7 +47,6 @@ describe("ทดสอบช่องเลือกจังหวัด ใน
       .should("have.value", "Passw0rd")
     cy.get(".btn").click()
     cy.url().should("include", "/")
-    cy.wait(6000)
     cy.get(":nth-child(1) > a > .btn").click()
     cy.get(".form-select").select("กรุงเทพฯ").should("have.value", "กรุงเทพฯ")
     cy.get(":nth-child(3) > .btn").click()
@@ -71,7 +67,6 @@ describe("ทดสอบการทำงานของการเลือ�
       .type("Passw0rd")
       .should("have.value", "Passw0rd")
     cy.get(".btn").click()
-    cy.wait(6000)
     cy.url().should("include", "/")
     cy.get(":nth-child(1) > a > .btn").click()
     cy.url().should("include", "/findbeds")
@@ -81,7 +76,6 @@ describe("ทดสอบการทำงานของการเลือ�
     cy.get("input[type=date]").clear().type(`${todayDate}`)
     cy.get(".row > :nth-child(2) > .btn").click()
     cy.get(".modal-footer > .btn-primary").click()
-    cy.wait(5000)
   })
 
   it("ทำการ login และเข้าสู่หน้าจองเตียง เพื่อทดสอบการเลือกวันที่ ในกรณีที่วันที่เลือก เป็นวันนี้หรือวันในอนาคต", () => {
@@ -93,7 +87,6 @@ describe("ทดสอบการทำงานของการเลือ�
       .type("Passw0rd")
       .should("have.value", "Passw0rd")
     cy.get(".btn").click()
-    cy.wait(6000)
     cy.url().should("include", "/")
     cy.get(":nth-child(1) > a > .btn").click()
     cy.url().should("include", "/findbeds")
@@ -103,6 +96,5 @@ describe("ทดสอบการทำงานของการเลือ�
     cy.get("input[type=date]").clear().type(`${todayDate}`)
     cy.get(".row > :nth-child(2) > .btn").click()
     cy.get(".modal-footer > .btn-primary").click()
-    cy.wait(5000)
   })
 })
