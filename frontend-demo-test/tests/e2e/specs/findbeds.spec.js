@@ -11,7 +11,6 @@ describe("ทดสอบช่องเลือกจังหวัด ใน
       .should("have.value", "Passw0rd")
     cy.get(".btn").click()
     cy.url().should("include", "/")
-    cy.wait(6000)
     cy.get(":nth-child(1) > a > .btn").click()
 
     cy.get(".form-select").select("กรุงเทพฯ").should("have.value", "กรุงเทพฯ")
