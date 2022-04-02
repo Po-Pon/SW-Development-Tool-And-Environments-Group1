@@ -12,9 +12,7 @@ describe("ทดสอบการทำงานของการเลือ�
       .should("have.value", "Passw0rd")
     cy.get(".btn").click()
     cy.url().should("include", "/")
-    cy.wait(5000)
     cy.get(":nth-child(1) > a > .btn").click()
-    cy.wait(6000)
     cy.url().should("include", "/findbeds")
     cy.get(":nth-child(3) > .btn").click()
     cy.get(":nth-child(2) > p.text-center > a > .btn").click({ force: true })
@@ -22,7 +20,6 @@ describe("ทดสอบการทำงานของการเลือ�
     cy.get("input[type=date]").clear().type(`${todayDate}`)
     cy.get(".row > :nth-child(2) > .btn").click()
     cy.get(".modal-footer > .btn-primary").click()
-    cy.wait(5000)
   })
 
   it("ทำการ login และเข้าสู่หน้าจองเตียง เพื่อทดสอบการเลือกวันที่ ในกรณีที่วันที่เลือก เป็นวันนี้หรือวันในอนาคต", () => {
@@ -35,7 +32,6 @@ describe("ทดสอบการทำงานของการเลือ�
       .should("have.value", "Passw0rd")
     cy.get(".btn").click()
     cy.url().should("include", "/")
-    cy.wait(5000)
     cy.get(":nth-child(1) > a > .btn").click()
     cy.url().should("include", "/findbeds")
     cy.get(":nth-child(3) > .btn").click()
@@ -44,6 +40,5 @@ describe("ทดสอบการทำงานของการเลือ�
     cy.get("input[type=date]").clear().type(`${todayDate}`)
     cy.get(".row > :nth-child(2) > .btn").click()
     cy.get(".modal-footer > .btn-primary").click()
-    cy.wait(5000)
   })
 })

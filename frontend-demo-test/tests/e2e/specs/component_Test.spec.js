@@ -15,7 +15,6 @@ describe("ทดสอบว่าหน้า main มีการแสดง�
     cy.get('[type="email"]').type("test@gmail.com")
     cy.get('[type="password"]').type("Passw0rd")
     cy.get(".btn").click()
-    cy.wait(3500)
   })
   it("- ทำการตรวจสอบ component ในหน้า main หลังทำการ login ว่ามีครบถ้วนหรือไม่", () => {
     cy.get(".me-auto > :nth-child(2) > .nav-link").should(
@@ -38,9 +37,7 @@ describe("ทดสอบว่าในหน้าค้นหาเตีย�
     cy.get('[type="email"]').type("test@gmail.com")
     cy.get('[type="password"]').type("Passw0rd")
     cy.get(".btn").click()
-    cy.wait(3500)
     cy.get(".me-auto > :nth-child(2) > .nav-link").click()
-    cy.wait(5000)
     cy.url().should("include", "/findbeds")
   })
   it("- ทำการตรวจสอบ component ในหน้าค้นหาเตียง ว่ามีครบถ้วนหรือไม่", () => {
@@ -68,9 +65,7 @@ describe("ทดสอบว่าในหน้าการจองเตี�
     cy.get('[type="email"]').type("test@gmail.com")
     cy.get('[type="password"]').type("Passw0rd")
     cy.get(".btn").click()
-    cy.wait(3500)
     cy.get(".me-auto > :nth-child(2) > .nav-link").click()
-    cy.wait(5000)
     cy.url().should("include", "/findbeds")
     cy.get(":nth-child(2) > p.text-center > a > .btn").click({ force: true })
   })
