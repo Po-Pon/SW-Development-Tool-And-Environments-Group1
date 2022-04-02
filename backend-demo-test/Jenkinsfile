@@ -27,10 +27,24 @@ pipeline {
                 }
             }
         }
+        stage('Unit Test Coverage') {
+            steps {
+                dir('backend-demo-test') {
+                    sh 'yarn test:unit:coverage'
+                }
+            }
+        }
 		stage('Component Test') {
             steps {
                 dir('backend-demo-test') {
                     sh 'yarn test:component'
+                }
+            }
+        }
+        stage('Component Test Coverage') {
+            steps {
+                dir('backend-demo-test') {
+                    sh 'yarn test:component:coverage'
                 }
             }
         }
