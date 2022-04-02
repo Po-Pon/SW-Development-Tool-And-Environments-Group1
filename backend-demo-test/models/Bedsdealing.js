@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require("mongoose")
 
 const BedsdealingSchema = new mongoose.Schema({
   date: {
@@ -13,6 +13,6 @@ const BedsdealingSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-});
+})
 
-module.exports = mongoose.model("Bedsdealing", BedsdealingSchema);
+module.exports = mongoose.model("Bedsdealing", BedsdealingSchema)

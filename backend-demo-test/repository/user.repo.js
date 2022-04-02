@@ -1,8 +1,8 @@
-const User = require("../models/User");
+const User = require("../models/User")
 
-const findAllUser = () => User.find();
+const findAllUser = () => User.find()
 
-const findUserById = (id) => User.findById(id);
+const findUserById = (id) => User.findById(id)
 
 const updatedUserData = (id, body) =>
   User.findByIdAndUpdate(
@@ -11,10 +11,10 @@ const updatedUserData = (id, body) =>
       $set: body,
     },
     { new: true }
-  );
+  )
 
 module.exports = {
   findAllUser,
   findUserById,
   updatedUserData,
-};
+}
