@@ -54,6 +54,14 @@ pipeline {
                 }
             }
         }
+        stage('Create Component Test&Coverage Report') {
+            steps {
+                dir('frontend-demo-test') {
+                    sh 'yarn component > component.txt'
+                    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: './', reportFiles: 'component.txt', reportName: 'Component Test&Coverage Report', reportTitles: 'Component Test&Coverage Report'])
+                }
+            }
+        }
         stage('E2E Test') {
             steps {
                 dir('frontend-demo-test') {
