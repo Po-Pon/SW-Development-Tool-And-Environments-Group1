@@ -1,6 +1,6 @@
 {
-  "C:\\Users\\Akira\\Desktop\\work\\SW-Development-Tool-And-Environments-Group1\\frontend-demo-test\\src\\assets\\server\\serverIP.js": {
-    "path": "C:\\Users\\Akira\\Desktop\\work\\SW-Development-Tool-And-Environments-Group1\\frontend-demo-test\\src\\assets\\server\\serverIP.js",
+  "C:\\Users\\Akira\\Desktop\\work\\base-repo\\SW-Development-Tool-And-Environments-Group1\\frontend-demo-test\\src\\assets\\server\\serverIP.js": {
+    "path": "C:\\Users\\Akira\\Desktop\\work\\base-repo\\SW-Development-Tool-And-Environments-Group1\\frontend-demo-test\\src\\assets\\server\\serverIP.js",
     "statementMap": {
       "0": {
         "start": { "line": 1, "column": 25 },
@@ -17,6 +17,6 @@
     "f": {},
     "b": {},
     "_coverageSchema": "1a1c01bbd47fc00a2c39e90264f33305004495a9",
-    "hash": "32e36e9963a7e9bc6f17ead24de5652d34fe1091"
+    "hash": "4c9988684ea3bd0e02817ef6eef4357063f4c29e"
   }
 }
