@@ -37,15 +37,17 @@ pipeline {
         stage('Create Unit Test Report') {
             steps {
                 dir('backend-demo-test') {
-                    sh 'yarn test:unit > unit.txt'
+                    sh 'chcp 65001'
+                    sh 'yarn test:unit &> unit.txt'
                     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: './', reportFiles: 'unit.txt', reportName: 'Unit Test Report', reportTitles: 'Unit Test Report'])
+                    sh 'chcp 1252'
                 }
             }
         }
         stage('Create Unit Test Coverage Report') {
             steps {
                 dir('backend-demo-test') {
-                    sh 'yarn test:unit:coverage > unit-coverage.txt'
+                    sh 'yarn test:unit:coverage &> unit-coverage.txt'
                     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: './', reportFiles: 'unit-coverage.txt', reportName: 'Unit Test Report', reportTitles: 'Unit Test Report'])
                 }
             }
@@ -67,7 +69,7 @@ pipeline {
         stage('Create Component Test Report') {
             steps {
                 dir('backend-demo-test') {
-                    sh 'yarn test:component > component.txt'
+                    sh 'yarn test:component &> component.txt'
                     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: './', reportFiles: 'component.txt', reportName: 'Component Test Report', reportTitles: 'Component Test Report'])
                 }
             }
@@ -75,7 +77,7 @@ pipeline {
         stage('Create Component Test Coverage Report') {
             steps {
                 dir('backend-demo-test') {
-                    sh 'yarn test:component:coverage > component-coverage.txt'
+                    sh 'yarn test:component:coverage &> component-coverage.txt'
                     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: './', reportFiles: 'component-coverage.txt', reportName: 'Component Test Coverage Report', reportTitles: 'Component Test Coverage Report'])
                 }
             }
