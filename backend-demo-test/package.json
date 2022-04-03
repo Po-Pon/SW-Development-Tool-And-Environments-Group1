@@ -10,11 +10,11 @@
     "lint": "prettier --write .",
     "start": "node ./build/main.js",
     "test": "yarn test:unit && yarn test:component",
-    "test:unit": "yarn build && mocha --timeout 30000 ./test/test.spec.js --exit",
-    "test:unit:coverage": "yarn build && nyc mocha --timeout 30000 ./test/test.spec.js --exit",
-    "test:component": "yarn build && mocha --no-timeout ./test/db/*.spec.js --exit",
-    "test:component:coverage": "yarn build && nyc mocha --no-timeout ./test/db/*.spec.js --exit",
-    "test:e2e": "yarn build && mocha --no-timeout ./test/e2e/*.spec.js --exit"
+    "test:unit": "mocha --timeout 30000 ./test/test.spec.js --exit",
+    "test:unit:coverage": "nyc mocha --timeout 30000 ./test/test.spec.js --exit",
+    "test:component": "mocha --no-timeout ./test/db/*.spec.js --exit",
+    "test:component:coverage": "nyc mocha --no-timeout ./test/db/*.spec.js --exit",
+    "test:e2e": "mocha --no-timeout ./test/e2e/*.spec.js --exit"
   },
   "author": "",
   "license": "ISC",
