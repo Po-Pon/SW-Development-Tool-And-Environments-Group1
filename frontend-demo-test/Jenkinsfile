@@ -37,7 +37,7 @@ pipeline {
         stage('Create Unit Test Report') {
             steps {
                 dir('frontend-demo-test') {
-                    sh 'yarn unit 2> unit.txt'
+                    sh 'yarn unit &> unit.txt'
                     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: './', reportFiles: 'unit.txt', reportName: 'Unit Test Report', reportTitles: 'Unit Test Report'])
                 }
             }
@@ -57,7 +57,7 @@ pipeline {
         stage('Create Component Test&Coverage Report') {
             steps {
                 dir('frontend-demo-test') {
-                    sh 'yarn component > component.txt'
+                    sh 'yarn component &> component.txt'
                     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: './', reportFiles: 'component.txt', reportName: 'Component Test&Coverage Report', reportTitles: 'Component Test&Coverage Report'])
                 }
             }
