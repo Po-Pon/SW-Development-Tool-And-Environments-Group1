@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="utf-8" />
+      <style>
+        body {
+          font-family: "Courier New", Courier, monospace;
+          padding: 0 1em;
+          line-height: 1.4;
+          color: #111;
+          background-color: #fff;
+        }
+        pre {
+          padding: 0 0;
+          margin: 0 0;
+          font-family: "Courier New", Courier, monospace;
+        }
+      </style>
+    </head>
+    <body><pre>
+
+  
+Backend server is running! on port 8888
+
+
+  Testing unit beds.js
+    GET /bedsready
+
+      ✔ Get Beds should have message การค้นหาสำเร็จ! (1213ms)
+    GET /beds/(ไอดีของสถานที่ให้บริการเตียง)
+      ✔ Get Beds should have message การค้นหาสำเร็จ! (171ms)
+    GET /bedsbyusers/(ไอดีของผู้ให้สถานที่บริการเตียง)
+      ✔ Get Beds should have message การค้นหาสำเร็จ! (295ms)
+
+  Testing unit bedsdealing.js
+    GET /bedsdealing
+      ✔ Get Bedsdealing should have message การค้นหาสำเร็จ! (398ms)
+    GET /bedsdealingbyusers/(ไอดีของผู้ใช้)
+      ✔ Get Bedsdealingbyusers should have message การค้นหาสำเร็จ! (259ms)
+    GET /bedsdealing/(ไอดีของประวัติการจองเตียง)
+      ✔ Get Bedsdealing should have message การค้นหาสำเร็จ! (128ms)
+    GET /bedsdealingbybeds/(ไอดีของสถานที่ให้บริการเตียง)
+      ✔ Get Bedsdealing by beds_id should have message การค้นหาสำเร็จ! (306ms)
+      ✔ Get Bedsdealing by undefind beds_id should have message ไม่มีข้อมูล! (210ms)
+    POST /bedsdealing
+      ✔ Add Bedsdealing should have message จองสำเร็จ with POST (252ms)
+      ✔ Add Bedsdealing should have message ไม่สามารถจองได้ เนื่องจากเตียงเต็ม with POST (65ms)
+
+  Testing unit auth.js
+    POST /login
+      ✔ Login with undefind email should have message อีเมลไม่มีอยู่ในระบบ กรุณาลองใหม่อีกครั้ง with POST (47ms)
+      ✔ Login with wrong password should have message รหัสผ่านไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง with POST (49ms)
+      ✔ Login should have message เข้าสู่ระบบสำเร็จ with POST (58ms)
+    POST /register
+      ✔ Register with wrong data should have message เกิดข้อผิดพลาดกรุณาลงทะเบียนอีกครั้งภายหลัง with POST (98ms)
+      ✔ Register should have message ลงทะเบียนสำเร็จ! with POST (139ms)
+      ✔ Register should have message อีเมลนี้มีในระบบอยู่แล้ว with POST (93ms)
+      ✔ Register should have message เลขบัตรประจำตัวประชาชนมีการใช้ซ้ำ with POST (94ms)
+
+  Testing unit users.js
+    GET /users/(ไอดีของผู้ใช้)
+      ✔ Get user details should have message ไอดีที่เรียกถูกต้อง (46ms)
+      ✔ Get undefind user should have message เกิดข้อผิดพลาดกรุณาลงทะเบียนอีกครั้งภายหลัง
+    PUT /users/(ไอดีของผู้ใช้)
+      ✔ Put update user details should have message อัพเดทข้อมูลสำเร็จ (48ms)
+      ✔ Put update  undefind user should have message อัพเดทข้อมูลไม่สำเร็จ กรุณาลองใหม่ภายหลัง
+    PUT /changepass/(ไอดีของผู้ใช้)
+      ✔ Put change user password should have message เปลี่ยนรหัสผ่านสำเร็จ (91ms)
+      ✔ Put change user but wrong password should have message รหัสผ่านไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง (49ms)
+
+
+  23 passing (4s)
+
+----------------------------|---------|----------|---------|---------|-------------------
+File                        | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+----------------------------|---------|----------|---------|---------|-------------------
+All files                   |   95.21 |    75.47 |   94.11 |   94.84 |                   
+ controllers                |   94.52 |     74.5 |     100 |   93.93 |                   
+  auth.controller.js        |   96.42 |    76.92 |     100 |   96.15 | 77                
+  beds.controller.js        |      95 |    71.42 |     100 |   94.11 | 82,136            
+  bedsdealing.controller.js |   92.98 |       75 |     100 |   92.15 | 27,42,112,185     
+  user.controller.js        |   95.23 |       75 |     100 |   95.23 | 64                
+ models                     |     100 |      100 |     100 |     100 |                   
+  Beds.js                   |     100 |      100 |     100 |     100 |                   
+  Bedsdealing.js            |     100 |      100 |     100 |     100 |                   
+  User.js                   |     100 |      100 |     100 |     100 |                   
+ repository                 |   95.65 |      100 |   93.33 |   95.65 |                   
+  auth.repo.js              |     100 |      100 |     100 |     100 |                   
+  beds.repo.js              |   85.71 |      100 |      80 |   85.71 | 3                 
+  bedsdealing.repo.js       |     100 |      100 |     100 |     100 |                   
+  user.repo.js              |     100 |      100 |     100 |     100 |                   
+ routes                     |     100 |      100 |     100 |     100 |                   
+  auth.js                   |     100 |      100 |     100 |     100 |                   
+  beds.js                   |     100 |      100 |     100 |     100 |                   
+  bedsdealing.js            |     100 |      100 |     100 |     100 |                   
+  user.js                   |     100 |      100 |     100 |     100 |                   
+ src                        |   93.75 |      100 |      75 |   93.33 |                   
+  index.js                  |   93.75 |      100 |      75 |   93.33 | 21                
+----------------------------|---------|----------|---------|---------|-------------------
+
+</pre></body></html>

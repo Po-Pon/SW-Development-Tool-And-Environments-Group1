@@ -10,10 +10,10 @@
     "lint": "prettier --write .",
     "start": "node ./build/main.js",
     "test": "yarn test:unit && yarn test:component",
-    "test:unit": "mocha --timeout 30000 ./test/test.spec.js --exit",
-    "test:unit:coverage": "nyc mocha --timeout 30000 ./test/test.spec.js --exit",
-    "test:component": "mocha --no-timeout ./test/db/*.spec.js --exit",
-    "test:component:coverage": "nyc mocha --no-timeout ./test/db/*.spec.js --exit",
+    "test:unit": "mocha --timeout 30000 ./test/test.spec.js --exit | term-to-html > unit.html",
+    "test:unit:coverage": "nyc mocha --timeout 30000 ./test/test.spec.js --exit | term-to-html > unit-coverage.html",
+    "test:component": "mocha --no-timeout ./test/db/*.spec.js --exit | term-to-html > component.html",
+    "test:component:coverage": "nyc mocha --no-timeout ./test/db/*.spec.js --exit | term-to-html > component-coverage.html",
     "test:e2e": "mocha --no-timeout ./test/e2e/*.spec.js --exit"
   },
   "author": "",
@@ -25,7 +25,8 @@
     "express": "^4.17.2",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.2.1",
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.15",
+    "term-to-html": "^1.2.0"
   },
   "devDependencies": {
     "backpack-core": "^0.8.4",
