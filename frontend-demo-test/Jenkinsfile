@@ -37,7 +37,7 @@ pipeline {
         stage('Create Unit Test Report') {
             steps {
                 dir('frontend-demo-test') {
-                    sh 'yarn unit &> unit.txt'
+                    sh 'yarn unit 2> unit.txt'
                     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: './', reportFiles: 'unit.txt', reportName: 'Unit Test Report', reportTitles: 'Unit Test Report'])
                 }
             }
