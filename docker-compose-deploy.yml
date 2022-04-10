@@ -1,7 +1,7 @@
 version: "3" 
 services:
   frontend:
-    image: docxed/team-1-frontend:1.0.1
+    image: docxed/team-1-frontend:1.0.2
     ports:
       - "6480:8080"
   backend:
