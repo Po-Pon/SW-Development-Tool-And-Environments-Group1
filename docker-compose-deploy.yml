@@ -1,0 +1,11 @@
+version: "3" 
+services:
+  frontend:
+    image: docxed/team-1-frontend:1.0.1
+    ports:
+      - "6480:8080"
+  backend:
+    image: docxed/team-1-backend:1.0.2
+    build: ./backend-demo-test
+    ports:
+      - "6481:8888"

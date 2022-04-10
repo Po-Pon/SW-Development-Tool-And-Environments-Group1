@@ -29,7 +29,7 @@ app.use(authRoute)
 app.use("/users", userRoute)
 
 app.listen(PORT, () => {
-  console.log("Backend server is running! on port 8888")
+  console.log(`Backend server is running! on port ${PORT}`)
 })
 
 export default app
