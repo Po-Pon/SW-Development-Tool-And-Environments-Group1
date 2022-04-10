@@ -5,6 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "start": "vue-cli-service serve --port 8080",
     "lint": "prettier --write .",
     "cypress:open": "cypress open",
     "unit": "vue-cli-service test:unit",
