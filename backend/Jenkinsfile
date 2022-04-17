@@ -1,0 +1,99 @@
+pipeline {
+    agent any
+    // environment{
+    //     TOKEN_KEY = credentials('TOKEN_KEY')
+    //     DB_HOST = credentials('DB_HOST')
+    //     DB_USER = credentials('DB_USER')
+    //     DB_PASSWORD = credentials('DB_PASSWORD')
+    //     DB_NAME = credentials('DB_NAME')
+    // }
+    stages {
+        stage('Pull code') {
+            steps {
+                checkout scm
+            }
+        }
+        stage('Download dependencies') {
+            steps {
+                dir('backend') {
+                    sh 'yarn install'
+                }
+            }
+        }
+        stage('Write env') {
+            steps {
+                dir('backend') {
+                    withCredentials([string(credentialsId: 'T01_TOKEN_KEY', variable: 'TOKEN_KEY'), string(credentialsId: 'T01_DB_HOST', variable: 'DB_HOST'), string(credentialsId: 'T01_DB_USER', variable: 'DB_USER'), string(credentialsId: 'T01_DB_PASSWORD', variable: 'DB_PASSWORD'), string(credentialsId: 'T01_DB_NAME', variable: 'DB_NAME')]) {
+                        script {
+                            def data = "TOKEN_KEY=${TOKEN_KEY}\nDB_HOST=${DB_HOST}\nDB_USER=${DB_USER}\nDB_PASSWORD=${DB_PASSWORD}\nDB_NAME=${DB_NAME}"
+                            writeFile(file: '.env', text: data)
+                        }
+                    }
+                }
+            }
+        }
+        // stage('Build') {
+        //     steps {
+        //         dir('backend') {
+        //             sh 'yarn build'
+        //         }
+        //     }
+        // }
+        // stage('Unit Test') {
+        //     steps {
+        //         dir('backend') {
+        //             sh 'yarn unit'
+        //         }
+        //         publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: './backend', reportFiles: 'unit.html', reportName: 'Unit Test Report', reportTitles: 'Unit Test Report'])
+        //     }
+        // }
+        // stage('Unit Test Coverage') {
+        //     steps {
+        //         dir('backend') {
+        //             sh 'yarn unit:coverage'
+        //         }
+        //         publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: './backend', reportFiles: 'unit-coverage.html', reportName: 'Unit Test Coverage Report', reportTitles: 'Unit Test Coverage Report'])
+        //     }
+        // }
+        // stage('Component Test') {
+        //     steps {
+        //         dir('backend') {
+        //             sh 'yarn component'
+        //         }
+        //         publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: './backend', reportFiles: 'component.html', reportName: 'Component Test Report', reportTitles: 'Component Test Report'])
+        //     }
+        // }
+        // stage('Component Test Coverage') {
+        //     steps {
+        //         dir('backend') {
+        //             sh 'yarn component:coverage'
+        //         }
+        //         publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: './backend', reportFiles: 'component-coverage.html', reportName: 'Component Test Coverage Report', reportTitles: 'Component Test Coverage Report'])
+        //     }
+        // }
+        // stage('E2E Test') {
+        //     steps {
+        //         dir('backend') {
+        //             sh "yarn e2e"
+        //         }
+        //         publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: './backend', reportFiles: 'e2e.html', reportName: 'E2E Test Report', reportTitles: 'E2E Test Report'])
+        //     }
+        // }
+        stage('Build & Deploy Docker') {
+            steps {
+                withCredentials([string(credentialsId: 'T01_HOST_NAME', variable: 'NAME'), string(credentialsId: 'T01_BACKEND_HOST', variable: 'HOST'), usernamePassword(credentialsId: 'T01_HOST_ACCOUNT', passwordVariable: 'PASSWORD', usernameVariable: 'USER')]) {
+                    script {
+                        def remote = [:]
+                        remote.name = NAME
+                        remote.host = HOST
+                        remote.user = USER
+                        remote.password = PASSWORD
+                        remote.allowAnyHosts = true
+                        sshCommand remote: remote, command: "git clone -b develop https://github.com/docxed/virusbooking.git"
+                        sshCommand remote: remote, command: "docker-compose -f virusbooking/docker-compose-build.yml build -t backend:2.0." + BUILD_NUMBER
+                    }
+                }
+            }
+        }
+    }
+}
