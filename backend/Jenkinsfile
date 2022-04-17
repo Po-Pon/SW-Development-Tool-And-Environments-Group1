@@ -83,11 +83,9 @@ pipeline {
                         remote.password = PASSWORD
                         remote.allowAnyHosts = true
                         sshCommand remote: remote, command: "git clone -b main https://github.com/Po-Pon/SW-Development-Tool-And-Environments-Group1.git"
-                        sshCommand remote: remote, command: "cd ./SW-Development-Tool-And-Environments-Group1/backend && echo TOKEN_KEY=" + TOKEN_KEY + " > .env"
-                        sshCommand remote: remote, command: "cd ./SW-Development-Tool-And-Environments-Group1/backend && echo DB_HOST=" + DB_HOST + " >> .env"
-                        sshCommand remote: remote, command: "cd ./SW-Development-Tool-And-Environments-Group1/backend && echo DB_USER=" + DB_USER + " >> .env"
-                        sshCommand remote: remote, command: "cd ./SW-Development-Tool-And-Environments-Group1/backend && echo DB_PASSWORD=" + DB_PASSWORD + " >> .env"
-                        sshCommand remote: remote, command: "cd ./SW-Development-Tool-And-Environments-Group1/backend && echo DB_NAME=" + DB_NAME + " >> .env"
+                        def data = "TOKEN_KEY=${TOKEN_KEY}\nDB_HOST=${DB_HOST}\nDB_USER=${DB_USER}\nDB_PASSWORD=${DB_PASSWORD}\nDB_NAME=${DB_NAME}"
+                        writeFile(file: '.env', text: data)
+                        sshPut remote: remote, from: '.env', into: './SW-Development-Tool-And-Environments-Group1/backend'
                         sshCommand remote: remote, command: "echo TTB_TAG=2.0." + BUILD_NUMBER + " > .env"
                         sshCommand remote: remote, command: "echo TTF_TAG=2.0." + BUILD_NUMBER + " >> .env"
                         sshCommand remote: remote, command: "docker-compose -f SW-Development-Tool-And-Environments-Group1/docker-compose-deploy.yml --remove-orphans down"
