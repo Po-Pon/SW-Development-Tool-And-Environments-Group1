@@ -83,7 +83,7 @@ pipeline {
                         remote.password = PASSWORD
                         remote.allowAnyHosts = true
                         try {
-                            sshCommand remote: remote, command: "git clone -b develop https://github.com/docxed/virusbooking.git"
+                            sshCommand remote: remote, command: "git clone -b main https://github.com/Po-Pon/SW-Development-Tool-And-Environments-Group1.git"
                             sshCommand remote: remote, command: "echo TTB_TAG=2.0." + BUILD_NUMBER + " > .env"
                             sshCommand remote: remote, command: "echo TTF_TAG=2.0." + BUILD_NUMBER + " >> .env"
                             sshCommand remote: remote, command: "docker-compose -f virusbooking/docker-compose-deploy.yml down"
