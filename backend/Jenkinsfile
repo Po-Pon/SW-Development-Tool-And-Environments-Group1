@@ -89,8 +89,8 @@ pipeline {
                         def tag = "TTB_TAG=2.0.${BUILD_NUMBER}\nTTF_TAG=${BUILD_NUMBER}"
                         writeFile(file: '.env', text: tag)
                         sshPut remote: remote, from: '.env', into: '.'
-                        sshCommand remote: remote, command: "docker-compose -f SW-Development-Tool-And-Environments-Group1/docker-compose-deploy.yml --remove-orphans down"
-                        sshCommand remote: remote, command: "docker-compose -f SW-Development-Tool-And-Environments-Group1/docker-compose-build.yml build --no-cache backend"
+                        sshCommand remote: remote, command: "docker-compose -f SW-Development-Tool-And-Environments-Group1/docker-compose-deploy.yml down"
+                        sshCommand remote: remote, command: "docker-compose -f SW-Development-Tool-And-Environments-Group1/docker-compose-build.yml build backend --no-cache"
                         sshCommand remote: remote, command: "docker-compose -f SW-Development-Tool-And-Environments-Group1/docker-compose-deploy.yml up -d backend"
                         sshCommand remote: remote, command: "rm -r SW-Development-Tool-And-Environments-Group1"
                         sshCommand remote: remote, command: "rm -r .env"
