@@ -88,7 +88,7 @@ pipeline {
                             echo "Error: ${err.message}"
                             echo "Error: ${err.stack}"
                         } finally {
-                            sshCommand remote: remote, command: "rm -r virusbooking"
+                            sshCommand remote: remote, command: "rm -r SW-Development-Tool-And-Environments-Group1"
                             sshCommand remote: remote, command: "rm -r .env"
                         }
                     }
