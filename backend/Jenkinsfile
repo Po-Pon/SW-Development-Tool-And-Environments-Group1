@@ -91,7 +91,7 @@ pipeline {
                             sshPut remote: remote, from: '.env', into: './SW-Development-Tool-And-Environments-Group1/backend'
                             
                             // Write AutoTag via BUILD NO.
-                            def tag = "TTB_TAG=2.0.${BUILD_NUMBER}\nTTF_TAG=${BUILD_NUMBER}"
+                            def tag = "TTB_TAG=2.0.${BUILD_NUMBER}\nTTF_TAG=2.0.${BUILD_NUMBER}"
                             writeFile(file: '.env', text: tag)
                             sshPut remote: remote, from: '.env', into: '.'
                             
