@@ -215,7 +215,7 @@ export default {
       Nprogress.start()
       axios
         .post(
-          `https://cryptic-thicket-17532.herokuapp.com/users/signup`,
+          `http://159.65.12.177:6481/users/signup`,
           this.signup
         )
         .then((res) => {
