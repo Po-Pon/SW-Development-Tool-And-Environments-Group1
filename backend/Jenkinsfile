@@ -74,7 +74,7 @@ pipeline {
         // }
         stage('Deploy') {
             steps {
-                withCredentials([string(credentialsId: 'T01_HOST_NAME', variable: 'NAME'), string(credentialsId: 'T01_BACKEND_HOST', variable: 'HOST'), usernamePassword(credentialsId: 'T01_HOST_ACCOUNT', passwordVariable: 'PASSWORD', usernameVariable: 'USER'), string(credentialsId: 'T01_TOKEN_KEY', variable: 'TOKEN_KEY'), string(credentialsId: 'T01_DB_HOST', variable: 'DB_HOST'), string(credentialsId: 'T01_DB_USER', variable: 'DB_USER'), string(credentialsId: 'T01_DB_PASSWORD', variable: 'DB_PASSWORD'), string(credentialsId: 'T01_DB_NAME', variable: 'DB_NAME')]) {
+                withCredentials([string(credentialsId: 'T01_HOST_NAME', variable: 'NAME'), string(credentialsId: 'T01_BACKEND_HOST', variable: 'HOST'), usernamePassword(credentialsId: 'T01_HOST_ACCOUNT', passwordVariable: 'PASSWORD', usernameVariable: 'USER'), string(credentialsId: 'T01_TOKEN_KEY', variable: 'TOKEN_KEY'), string(credentialsId: 'T01_DB_HOST', variable: 'DB_HOST'), string(credentialsId: 'T01_DB_USER', variable: 'DB_USER'), string(credentialsId: 'T01_DB_PASSWORD', variable: 'DB_PASSWORD'), string(credentialsId: 'T01_DB_NAME', variable: 'DB_NAME'), usernamePassword(credentialsId: 'T01_DOCKER_ACCOUNT', passwordVariable: 'D_PASSWORD', usernameVariable: 'D_USER')]) {
                     script {
                         def remote = [:]
                         remote.name = NAME
@@ -82,26 +82,38 @@ pipeline {
                         remote.user = USER
                         remote.password = PASSWORD
                         remote.allowAnyHosts = true
-                        sshCommand remote: remote, command: "git clone -b main https://github.com/Po-Pon/SW-Development-Tool-And-Environments-Group1.git"
-                        
-                        // Write env
-                        def env = "TOKEN_KEY=${TOKEN_KEY}\nDB_HOST=${DB_HOST}\nDB_USER=${DB_USER}\nDB_PASSWORD=${DB_PASSWORD}\nDB_NAME=${DB_NAME}"
-                        writeFile(file: '.env', text: env)
-                        sshPut remote: remote, from: '.env', into: './SW-Development-Tool-And-Environments-Group1/backend'
-                        
-                        // Write AutoTag via BUILD NO.
-                        def tag = "TTB_TAG=2.0.${BUILD_NUMBER}\nTTF_TAG=${BUILD_NUMBER}"
-                        writeFile(file: '.env', text: tag)
-                        sshPut remote: remote, from: '.env', into: '.'
-                        
-                        // Build & Run Container
-                        sshCommand remote: remote, command: "docker-compose -f SW-Development-Tool-And-Environments-Group1/docker-compose-deploy.yml down"
-                        sshCommand remote: remote, command: "docker-compose -f SW-Development-Tool-And-Environments-Group1/docker-compose-build.yml build --no-cache backend"
-                        sshCommand remote: remote, command: "docker-compose -f SW-Development-Tool-And-Environments-Group1/docker-compose-deploy.yml up -d backend"
-                        
-                        // Clear files
-                        sshRemove remote: remote, path: "SW-Development-Tool-And-Environments-Group1"
-                        sshRemove remote: remote, path: ".env"
+                        try {
+                            sshCommand remote: remote, command: "git clone -b main https://github.com/Po-Pon/SW-Development-Tool-And-Environments-Group1.git"
+                            // Write env
+                            def env = "TOKEN_KEY=${TOKEN_KEY}\nDB_HOST=${DB_HOST}\nDB_USER=${DB_USER}\nDB_PASSWORD=${DB_PASSWORD}\nDB_NAME=${DB_NAME}"
+                            writeFile(file: '.env', text: env)
+                            sshPut remote: remote, from: '.env', into: './SW-Development-Tool-And-Environments-Group1/backend'
+                            
+                            // Login
+                            sshCommand remote: remote, command: "docker logout && docker login --username $D_USER --password $D_PASSWORD"
+                            
+                            // Write AutoTag via BUILD NO.
+                            def tag = "TTB_TAG=2.0.${BUILD_NUMBER}\nTTF_TAG=${BUILD_NUMBER}"
+                            writeFile(file: '.env', text: tag)
+                            sshPut remote: remote, from: '.env', into: '.'
+                            
+                            // Build Push & Run Container
+                            sshCommand remote: remote, command: "docker-compose -f SW-Development-Tool-And-Environments-Group1/docker-compose-deploy.yml down"
+                            sshCommand remote: remote, command: "docker-compose -f SW-Development-Tool-And-Environments-Group1/docker-compose-build.yml build --no-cache backend"
+                            sshCommand remote: remote, command: "docker-compose -f SW-Development-Tool-And-Environments-Group1/docker-compose-build.yml push backend"
+                            sshCommand remote: remote, command: "docker-compose -f SW-Development-Tool-And-Environments-Group1/docker-compose-deploy.yml up -d backend"
+
+                            // Logout
+                            sshCommand remote: remote, command: "docker logout"
+                        }  catch (err) {
+                            echo "Error: ${err.message}"
+                            echo "Error: ${err.stack}"
+                        } finally {
+
+                            // Clear files
+                            sshRemove remote: remote, path: "SW-Development-Tool-And-Environments-Group1"
+                            sshRemove remote: remote, path: ".env"
+                        }
                     }
                 }
             }
