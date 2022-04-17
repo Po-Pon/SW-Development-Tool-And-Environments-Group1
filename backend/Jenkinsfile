@@ -84,11 +84,13 @@ pipeline {
                         remote.allowAnyHosts = true
                         try {
                             sshCommand remote: remote, command: "git clone -b main https://github.com/Po-Pon/SW-Development-Tool-And-Environments-Group1.git"
-                            def data = "TOKEN_KEY=${TOKEN_KEY}\nDB_HOST=${DB_HOST}\nDB_USER=${DB_USER}\nDB_PASSWORD=${DB_PASSWORD}\nDB_NAME=${DB_NAME}"
-                            sshCommand remote: remote, command: "cd backend && echo " + data + " > .env"
+                            sshCommand remote: remote, command: "cd ./SW-Development-Tool-And-Environments-Group1/backend && echo TOKEN_KEY=" + TOKEN_KEY + " > .env"
+                            sshCommand remote: remote, command: "cd ./SW-Development-Tool-And-Environments-Group1/backend && echo DB_HOST=" + DB_HOST + " >> .env"
+                            sshCommand remote: remote, command: "cd ./SW-Development-Tool-And-Environments-Group1/backend && echo DB_USER=" + DB_USER + " >> .env"
+                            sshCommand remote: remote, command: "cd ./SW-Development-Tool-And-Environments-Group1/backend && echo DB_PASSWORD=" + DB_PASSWORD + " >> .env"
+                            sshCommand remote: remote, command: "cd ./SW-Development-Tool-And-Environments-Group1/backend && echo DB_NAME=" + DB_NAME + " >> .env"
                             sshCommand remote: remote, command: "echo TTB_TAG=2.0." + BUILD_NUMBER + " > .env"
                             sshCommand remote: remote, command: "echo TTF_TAG=2.0." + BUILD_NUMBER + " >> .env"
-                            
                             sshCommand remote: remote, command: "docker-compose -f SW-Development-Tool-And-Environments-Group1/docker-compose-deploy.yml down"
                             sshCommand remote: remote, command: "docker-compose -f SW-Development-Tool-And-Environments-Group1/docker-compose-build.yml build --no-cache backend"
                             sshCommand remote: remote, command: "docker-compose -f SW-Development-Tool-And-Environments-Group1/docker-compose-deploy.yml up -d backend"
