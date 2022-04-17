@@ -1,0 +1,8 @@
+version: "3" 
+services:
+  frontend:
+    image: docxed/ttf:${TTF_TAG}
+    build: ./frontend
+  backend:
+    image: docxed/ttb:${TTB_TAG}
+    build: ./backend

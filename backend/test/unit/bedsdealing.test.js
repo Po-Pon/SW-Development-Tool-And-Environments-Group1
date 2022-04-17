@@ -191,29 +191,12 @@ describe("Unit Test bedsdealing ", () => {
         .request(server)
         .get("/bedsdealing/customer/" + bed_id1)
         .set("Authorization", token2)
-        .end((err, res) => {
+        .end(async (err, res) => {
           res.body.should.have.have
             .property("message")
             .a("string")
             .eql("เรียกข้อมูลสำเร็จ")
           res.body.should.have.property("status").eql(true)
-          done()
-        })
-    })
-  })
-
-  describe("/PUT /bedsdealing/customer/:id", () => {
-    it("it can't change status bedsdealings", (done) => {
-      chai
-        .request(server)
-        .put("/bedsdealing/customer/" + bedsdealing_id)
-        .set("Authorization", token1)
-        .end(async (err, res) => {
-          res.body.should.have.have
-            .property("message")
-            .a("string")
-            .eql("ยังไม่ถึงวันเข้าพัก")
-          res.body.should.have.property("status").eql(false)
           date.setDate(date.getDate() - 2)
           await pool.query("UPDATE bedsdealing SET date = ? WHERE id = ?", [
             date,
@@ -222,7 +205,9 @@ describe("Unit Test bedsdealing ", () => {
           done()
         })
     })
+  })
 
+  describe("/PUT /bedsdealing/customer/:id", () => {
     it("it can change status bedsdealings", (done) => {
       chai
         .request(server)
