@@ -84,6 +84,7 @@ pipeline {
                         remote.allowAnyHosts = true
                         try {
                             sshCommand remote: remote, command: "git clone -b main https://github.com/Po-Pon/SW-Development-Tool-And-Environments-Group1.git"
+                            
                             // Write env
                             def env = "TOKEN_KEY=${TOKEN_KEY}\nDB_HOST=${DB_HOST}\nDB_USER=${DB_USER}\nDB_PASSWORD=${DB_PASSWORD}\nDB_NAME=${DB_NAME}"
                             writeFile(file: '.env', text: env)
