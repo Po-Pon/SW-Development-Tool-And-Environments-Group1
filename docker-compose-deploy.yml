@@ -1,10 +1,10 @@
 version: "3" 
 services:
   frontend:
-    image: docxed/ttf:${TTF_TAG}
+    image: docxed/team-1-frontend:${TTF_TAG}
     ports:
       - "6480:80"
   backend:
-    image: docxed/ttb:${TTB_TAG}
+    image: docxed/team-1-backend:${TTB_TAG}
     ports:
       - "6481:3001"
