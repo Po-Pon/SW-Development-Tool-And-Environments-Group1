@@ -15,11 +15,12 @@ app.use(express.urlencoded({ extended: true }))
 // Router
 const userRouter = require("../routes/users")
 const bedsRouter = require("../routes/beds")
-
+const bedsdealingsRouter = require("../routes/bedsdealing")
 
 // Router Using
 app.use(userRouter.router)
 app.use(bedsRouter.router)
+app.use(bedsdealingsRouter.router)
 
 const port = process.env.PORT || 3001
 
