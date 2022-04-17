@@ -85,7 +85,7 @@ pipeline {
                             writeFile(file: '.env', text: tag)
                             sshPut remote: remote, from: '.env', into: '.'
                             
-                            // Build Push & Run Container
+                            // Build & Run Container
                             sshCommand remote: remote, command: "docker-compose -f SW-Development-Tool-And-Environments-Group1/docker-compose-deploy.yml down"
                             sshCommand remote: remote, command: "docker-compose -f SW-Development-Tool-And-Environments-Group1/docker-compose-build.yml build --no-cache frontend"
                             sshCommand remote: remote, command: "docker-compose -f SW-Development-Tool-And-Environments-Group1/docker-compose-deploy.yml up -d frontend"
