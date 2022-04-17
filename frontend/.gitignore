@@ -5,8 +5,10 @@ node_modules
 /tests/e2e/videos/
 /tests/e2e/screenshots/
 
+# test report
 test-report.html
 coverage
+e2e.html
 
 # local env files
 .env.local
