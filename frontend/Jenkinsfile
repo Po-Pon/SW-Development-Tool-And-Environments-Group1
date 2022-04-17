@@ -94,8 +94,10 @@ pipeline {
                             echo "Error: ${err.message}"
                             echo "Error: ${err.stack}"
                         } finally {
-                            sshCommand remote: remote, command: "rm -r SW-Development-Tool-And-Environments-Group1"
-                            sshCommand remote: remote, command: "rm -r .env"
+                            
+                            // Clear files
+                            sshRemove remote: remote, path: "SW-Development-Tool-And-Environments-Group1"
+                            sshRemove remote: remote, path: ".env"
                         }
                     }
                 }
