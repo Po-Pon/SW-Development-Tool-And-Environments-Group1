@@ -215,7 +215,7 @@ export default {
       Nprogress.start()
       axios
         .post(
-          `http://159.65.12.177:6481/users/signup`,
+          `http://159.223.45.216:6481/users/signup`,
           this.signup
         )
         .then((res) => {
