@@ -74,7 +74,7 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                withCredentials([string(credentialsId: 'T01_HOST_NAME', variable: 'NAME'), string(credentialsId: 'T01_BACKEND_HOST', variable: 'HOST'), usernamePassword(credentialsId: 'T01_HOST_ACCOUNT', passwordVariable: 'PASSWORD', usernameVariable: 'USER')]) {
+                withCredentials([string(credentialsId: 'T01_HOST_NAME', variable: 'NAME'), string(credentialsId: 'T01_BACKEND_HOST', variable: 'HOST'), usernamePassword(credentialsId: 'T01_HOST_ACCOUNT', passwordVariable: 'PASSWORD', usernameVariable: 'USER'), string(credentialsId: 'T01_TOKEN_KEY', variable: 'TOKEN_KEY'), string(credentialsId: 'T01_DB_HOST', variable: 'DB_HOST'), string(credentialsId: 'T01_DB_USER', variable: 'DB_USER'), string(credentialsId: 'T01_DB_PASSWORD', variable: 'DB_PASSWORD'), string(credentialsId: 'T01_DB_NAME', variable: 'DB_NAME')]) {
                     script {
                         def remote = [:]
                         remote.name = NAME
@@ -84,8 +84,11 @@ pipeline {
                         remote.allowAnyHosts = true
                         try {
                             sshCommand remote: remote, command: "git clone -b main https://github.com/Po-Pon/SW-Development-Tool-And-Environments-Group1.git"
+                            def data = "TOKEN_KEY=${TOKEN_KEY}\nDB_HOST=${DB_HOST}\nDB_USER=${DB_USER}\nDB_PASSWORD=${DB_PASSWORD}\nDB_NAME=${DB_NAME}"
+                            sshCommand remote: remote, command: "cd backend && echo " + data + " > .env"
                             sshCommand remote: remote, command: "echo TTB_TAG=2.0." + BUILD_NUMBER + " > .env"
                             sshCommand remote: remote, command: "echo TTF_TAG=2.0." + BUILD_NUMBER + " >> .env"
+                            
                             sshCommand remote: remote, command: "docker-compose -f SW-Development-Tool-And-Environments-Group1/docker-compose-deploy.yml down"
                             sshCommand remote: remote, command: "docker-compose -f SW-Development-Tool-And-Environments-Group1/docker-compose-build.yml build --no-cache backend"
                             sshCommand remote: remote, command: "docker-compose -f SW-Development-Tool-And-Environments-Group1/docker-compose-deploy.yml up -d backend"
