@@ -11,7 +11,7 @@ describe("Bestbeds - E2E Test", () => {
   ]
   usersForSignin.forEach((user, index) => {
     it("signin page.", () => {
-      cy.visit("/signin")
+      cy.visit("http://159.223.45.216:6481/signin")
       cy.get(":nth-child(1) > .form-control").type(user.email)
       cy.get(":nth-child(2) > .form-control").type(user.password)
       cy.get(".btn").click()
@@ -40,7 +40,7 @@ describe("Bestbeds - E2E Test", () => {
   ]
   usersForAddBed.forEach((user, index) => {
     it("input data for beds reservation.", () => {
-      cy.visit("/signin")
+      cy.visit("http://159.223.45.216:6481/signin")
       cy.get(":nth-child(1) > .form-control").type(user.email)
       cy.get(":nth-child(2) > .form-control").type(user.password)
       cy.get(".btn").click()
@@ -66,7 +66,7 @@ describe("Bestbeds - E2E Test", () => {
   ]
   usersForFindBed.forEach((user, index) => {
     it("reach find bed places.", () => {
-      cy.visit("/signin")
+      cy.visit("http://159.223.45.216:6481/signin")
       cy.get(":nth-child(1) > .form-control").type(user.email)
       cy.get(":nth-child(2) > .form-control").type(user.password)
       cy.get(".btn").click()
@@ -87,7 +87,7 @@ describe("Bestbeds - E2E Test", () => {
   ]
   usersForToggleBed.forEach((user, index) => {
     it("reach bed places management page.", () => {
-      cy.visit("/signin")
+      cy.visit("http://159.223.45.216:6481/signin")
       cy.get(":nth-child(1) > .form-control").type(user.email)
       cy.get(":nth-child(2) > .form-control").type(user.password)
       cy.get(".btn").click()
@@ -108,7 +108,7 @@ describe("Bestbeds - E2E Test", () => {
   ]
   usersForBeds.forEach((user, index) => {
     it("reach bed reservation page.", () => {
-      cy.visit("/signin")
+      cy.visit("http://159.223.45.216:6481/signin")
       cy.get(":nth-child(1) > .form-control").type(user.email)
       cy.get(":nth-child(2) > .form-control").type(user.password)
       cy.get(".btn").click()
@@ -129,7 +129,7 @@ describe("Bestbeds - E2E Test", () => {
   ]
   usersForProfile.forEach((user, index) => {
     it("reach profile page.", () => {
-      cy.visit("/signin")
+      cy.visit("http://159.223.45.216:6481/signin")
       cy.get(":nth-child(1) > .form-control").type(user.email)
       cy.get(":nth-child(2) > .form-control").type(user.password)
       cy.get(".btn").click()
@@ -150,7 +150,7 @@ describe("Bestbeds - E2E Test", () => {
   ]
   usersForHome.forEach((user, index) => {
     it("reach daily COVID-19 page", () => {
-      cy.visit("/signin")
+      cy.visit("http://159.223.45.216:6481/signin")
       cy.get(":nth-child(1) > .form-control").type(user.email)
       cy.get(":nth-child(2) > .form-control").type(user.password)
       cy.get(".btn").click()

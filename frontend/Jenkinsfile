@@ -52,14 +52,6 @@ pipeline {
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: './frontend/coverage/lcov-report', reportFiles: 'index.html', reportName: 'Component Test Coverage Report', reportTitles: 'Component Test Coverage Report'])
             }
         }
-        stage('E2E Test') {
-            steps {
-                dir('frontend') {
-                    sh "yarn e2e"
-                }
-                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: './frontend', reportFiles: 'e2e.html', reportName: 'E2E Test Report', reportTitles: 'E2E Test Report'])
-            }
-        }
         stage('Build') {
             steps {
                 dir('frontend') {
@@ -101,6 +93,14 @@ pipeline {
                         }
                     }
                 }
+            }
+        }
+        stage('E2E Test') {
+            steps {
+                dir('frontend') {
+                    sh "yarn e2e"
+                }
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: './frontend', reportFiles: 'e2e.html', reportName: 'E2E Test Report', reportTitles: 'E2E Test Report'])
             }
         }
     }
