@@ -6,7 +6,7 @@ const pool = require("../../config/database")
 const { after, before, describe, it } = require("mocha")
 
 // const server = require("../../build/main.js").default
-const server = "http://159.223.45.216:6481/"
+const server = "http://159.223.45.216:6481"
 
 chai.use(chaiHttp)
 chai.should()
