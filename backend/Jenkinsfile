@@ -13,6 +13,13 @@ pipeline {
                 }
             }
         }
+        stage('Scan & auto fixed code') {
+            steps {
+                dir('backend') {
+                    sh 'yarn lint'
+                }
+            }
+        }
         stage('Write env') {
             steps {
                 dir('backend') {
