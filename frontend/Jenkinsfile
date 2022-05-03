@@ -73,7 +73,7 @@ pipeline {
                             sshCommand remote: remote, command: "git clone -b main https://github.com/Po-Pon/SW-Development-Tool-And-Environments-Group1.git"
                             
                             // Write AutoTag via BUILD NO.
-                            def tag = "TTB_TAG=2.0.${BUILD_NUMBER}\nTTF_TAG=${BUILD_NUMBER}"
+                            def tag = "TTB_TAG=2.0.${BUILD_NUMBER}\nTTF_TAG=2.0.${BUILD_NUMBER}"
                             writeFile(file: '.env', text: tag)
                             sshPut remote: remote, from: '.env', into: '.'
                             
