@@ -25,7 +25,7 @@
       </div>
       <div class="text-center">
         <button type="button" class="btn btn-primary">
-          พร้มจอง
+          พร้อมจอง
           <span class="badge bg-white text-dark">{{
             bed.amount.toLocaleString()
           }}</span>
